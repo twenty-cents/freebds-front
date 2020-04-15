@@ -1,1 +1,136 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Force Roboto for all primeng widgets */
+body .ui-widget {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Left Sidebar menu -> Sticky / hidden */
+.sticky-sidebar {
+    -ms-flex: 0 0 280px;
+    flex: 0 0 280px;
+    background-color: greenyellow; 
+} 
+
+@media (max-width: 768px) {
+  .sticky-sidebar {
+    display: none; 
+  } 
+}
+
+body .ui-sidebar-left {
+    /* background-image: url("assets/bg-moody-light.png"); 
+     background-size: 100% 100%;
+     background-repeat: no-repeat; */
+     background-color: white;
+     box-shadow: 3px 0 6px rgba(0, 0, 0, 0.3);
+     max-width: 240;
+     z-index: 9999;
+ }
+
+
+ form .mat-form-field {
+    width: 100%;
+ }
+
+body .ui-panel .ui-panel-titlebar {
+    background-color: yellowgreen;
+}
+
+/* Top bar */
+body .ui-sidebar-top {
+    background-color: #20272a;
+    display: block;
+    padding: 0;
+    height: 70px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
+}
+
+
+
+body .ui-panelmenu {
+    border: none;
+}
+
+body .ui-panelmenu .ui-panelmenu-header {
+    border: none;
+}
+
+body .ui-panelmenu .ui-panelmenu-content {
+    border: none;
+}
+body .ui-panelmenu .ui-panelmenu-content .ui-menu-list {
+    border: none;
+}
+body .ui-panelmenu .ui-panelmenu-content .ui-menuitem {
+    border: none;
+}
+body .ui-panelmenu .ui-panelmenu-header > a {
+    border: none;
+    background-color: white;
+}
+body .ui-panelmenu .ui-panelmenu-header.ui-state-active > a {
+    border: none
+}
+
+.box-shadow {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
+}
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #f7f7f7;}
+
+/* Essais D3js */
+
+#svg {
+    display: block;
+    margin: auto;
+}
+
+#chart {
+	margin-top: 20px;
+	border: 1px solid #DEDEDE;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: #23415A;
+}
+
+.tooltip {
+	position: absolute;
+	opacity:0.8;
+	z-index:1000;
+	text-align:left;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	padding:8px;
+	color:#fff;
+	background-color:#000;
+	font: 12px sans-serif;
+	max-width: 300px;
+}
+
+
+svg rect {
+    fill: gray;
+ }
+ 
+ svg text {
+    fill: yellow;
+    font: 12px sans-serif;
+    text-anchor: end;
+ }
+/* Fin Essais D3js */

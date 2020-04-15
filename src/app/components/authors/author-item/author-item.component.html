@@ -1,0 +1,78 @@
+<!-- Serie card -->
+<div class="card mt-2">
+
+    <div class="card-header text-white bg-dark">
+        <h5 class="mb-1"> {{ titleName }}</h5>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-md-4" style="max-width: 200px;">
+
+            <div class="row no-gutters">
+                <div class="col-md-12">
+                    <img [src]="author.photoUrl" class="card-img p-1"
+                        alt="...">
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+
+            <div class="card-body bg-white">
+                <dl class="dl-horizontal">
+                    <dt>ID</dt>
+                    <dd>{{ author.id }}</dd>
+                    <dt>ID Bedetheque</dt>
+                    <dd>{{ author.externalId }}</dd>
+                    <dt>Nom</dt>
+                    <dd>{{ author.lastname }}</dd>
+                    <dt>Prénom</dt>
+                    <dd>{{ author.firstname }}</dd>
+                    <dt>Pseudo</dt>
+                    <dd>{{ author.nickname }}</dd>
+                    <dt>Naissance</dt>
+                    <dd>{{ author.birthdate }}</dd>
+                    <dt>Décès</dt>
+                    <dd>{{ author.deceaseDate }}</dd>
+                    <dt>Site internet</dt>
+                    <!-- https://stackoverflow.com/questions/15551779/open-link-in-new-tab-or-window -->
+                    <dd><a target="_blank" rel="noopener noreferrer" [href]="author.siteUrl">{{ author.siteUrl }}</a></dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Card Footer -->
+    <div class="card-footer bg-white">
+        <h5>Biographie</h5>
+        <p>{{ author.biography }}</p>
+    </div>
+
+</div>
+
+<!-- Main series -->
+<h5 class="mt-3">{{authorRoleBySerie.length}} séries principales</h5>
+
+<table class="table table-hover mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="th-selectable">Titre</th>
+            <th scope="col" class="th-selectable">Rôle</th>
+            <th scope="col" class="th-selectable">Du</th>
+            <th scope="col" class="th-selectable">Au</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="authorRoleBySerie !== undefined">
+        <tr *ngFor="let serie of authorRoleBySerie">
+            <th scope="row">{{ serie.id }}</th>
+            <td>{{ serie.title }}</td>
+            <td>{{ serie.role }}</td>
+            <td>{{ serie.publicationDateFrom.substring(0, 4) }}</td>
+            <td>{{ serie.publicationDateTo.substring(0, 4) }}</td>
+            <td><a [routerLink]="['/series', serie.id]" class="btn btn-info btn-sm">Afficher</a></td>
+        </tr>
+    </tbody>
+</table>

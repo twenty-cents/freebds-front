@@ -1,0 +1,319 @@
+<!-- Filters panel -->
+<mat-card class="mat-elevation-z6">
+    <form [formGroup]="filterForm" (ngSubmit)="freeResearchHandle(filterForm.value)">
+        <div class="form-row">
+
+            <!-- ++++++++++++++++++++++++++++++++++++++ -->
+            <!-- Série filters column -->
+            <!-- ++++++++++++++++++++++++++++++++++++++ -->
+            <div class="col-md-4">
+                <div class="form-row">
+                    <div class="col-md-12" style="width: 100%;height: 4px; background-color: teal;">
+                    </div>
+                    <div class="col-md-12">
+                        <mat-card-header>
+                            <mat-card-title>Filtres Séries</mat-card-title>
+                        </mat-card-header>
+                    </div>
+                </div>
+
+                <!-- Serie title selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Titre</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text" formControlName="serieTitle"
+                                name="serieTitle" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('serieTitle', 'min')">Veuillez saisir au mininum 3 caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Serie external id selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>ID Bedetheque</mat-label>
+                            <input matInput type="text" formControlName="serieExternalId" name="serieExternalId">
+                            <mat-hint>ID Bedetheque de la série</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Serie category selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Style</mat-label>
+                            <mat-select formControlName="serieCategory">
+                                <mat-option value="" selected></mat-option>
+                                <mat-option *ngFor="let category of categories" [value]="category">{{ category }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Serie status selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Statut</mat-label>
+                            <mat-select formControlName="serieStatus">
+                                <mat-option value="" selected></mat-option>
+                                <mat-option *ngFor="let state of status" [value]="state">{{ state }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Serie Origin selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Origine</mat-label>
+                            <mat-select formControlName="serieOrigin">
+                                <mat-option value="" selected></mat-option>
+                                <mat-option *ngFor="let origin of origins" [value]="origin">{{ origin }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Serie language selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Langue</mat-label>
+                            <mat-select formControlName="serieLanguage">
+                                <mat-option value="" selected></mat-option>
+                                <mat-option *ngFor="let language of languages" [value]="language">{{ language }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ++++++++++++++++++++++++++++++++++++++ -->
+            <!-- Graphic novel filters column           -->
+            <!-- ++++++++++++++++++++++++++++++++++++++ -->
+            <div class="col-md-4">
+                <div class="form-row">
+                    <div class="col-md-12" style="width: 100%;height: 4px; background-color: teal;">
+                    </div>
+                    <div class="col-md-12">
+                        <mat-card-header>
+                            <mat-card-title>Filtres Albums</mat-card-title>
+                        </mat-card-header>
+                    </div>
+                </div>
+
+                <!-- Graphic novel title selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Titre</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text"
+                                formControlName="graphicNovelTitle" name="graphicNovelTitle" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('graphicNovelTitle', 'min')">Veuillez saisir au mininum 3
+                                caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Graphic novel external id selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>ID Bedetheque</mat-label>
+                            <input matInput type="text" formControlName="graphicNovelExternalId"
+                                name="graphicNovelExternalId">
+                            <mat-hint>ID Bedetheque de l'album</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Graphic novel publisher selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Editeur</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text"
+                                formControlName="graphicNovelPublisher" name="graphicNovelPublisher" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('graphicNovelPublisher', 'min')">Veuillez saisir au mininum 3
+                                caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Graphic novel collection selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Collection</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text"
+                                formControlName="graphicNovelCollection" name="graphicNovelCollection" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('graphicNovelCollection', 'min')">Veuillez saisir au mininum 3
+                                caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Graphic novel ISBN selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-6">
+                        <mat-form-field>
+                            <mat-label>Code ISBN</mat-label>
+                            <input matInput type="text" formControlName="graphicNovelISBN" name="graphicNovelISBN">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Graphic novel republication selection -->
+                    <div class="form-group input-group-sm col-md-6">
+                        <mat-form-field>
+                            <mat-label>Rééditions</mat-label>
+                            <mat-select formControlName="graphicNovelRepublication">
+                                <mat-option value="N" selected>Non</mat-option>
+                                <mat-option value="Y">Oui</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Graphic novel publication date from selection -->
+                    <div class="form-group input-group-sm col-md-6">
+                        <mat-form-field>
+                            <mat-label>Dépôt légal du</mat-label>
+                            <input matInput type="text" formControlName="graphicNovelPublicationDateFrom"
+                                name="graphicNovelPublicationDateFrom">
+                        </mat-form-field>
+                    </div>
+                    <!-- Graphic novel publication date to selection -->
+                    <div class="form-group input-group-sm col-md-6">
+                        <mat-form-field>
+                            <mat-label>au</mat-label>
+                            <input matInput type="text" formControlName="graphicNovelPublicationDateTo"
+                                name="graphicNovelPublicationDateTo">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ++++++++++++++++++++++++++++++++++++++ -->
+            <!-- Authors filters column                 -->
+            <!-- ++++++++++++++++++++++++++++++++++++++ -->
+            <div class="col-md-4">
+                <div class="form-row">
+                    <div class="col-md-12" style="width: 100%;height: 4px; background-color: teal;">
+                    </div>
+                    <div class="col-md-12">
+                        <mat-card-header>
+                            <mat-card-title>Filtres Auteurs</mat-card-title>
+                        </mat-card-header>
+                    </div>
+                </div>
+
+                <!-- Author lastname selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Nom</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text" formControlName="authorLastname"
+                                name="authorLastname" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('authorLastname', 'min')">Veuillez saisir au mininum 3
+                                caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Author firstname selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Prénom</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text"
+                                formControlName="authorFirstname" name="authorFirstname" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('authorFirstname', 'min')">Veuillez saisir au mininum 3
+                                caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Author nickname selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Pseudo</mat-label>
+                            <input matInput placeholder="3 lettres minimum" type="text" formControlName="authorNickname"
+                                name="authorNickname" min="3">
+                            <mat-hint>3 lettres minimum</mat-hint>
+                            <mat-error *ngIf="hasError('authorNickname', 'min')">Veuillez saisir au mininum 3
+                                caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Author external id selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>ID Bedetheque</mat-label>
+                            <input matInput type="text" formControlName="authorExternalId" name="authorExternalId">
+                            <mat-hint>ID Bedetheque de l'auteur</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Author nationality selection -->
+                <div class="form-row">
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Nationalité</mat-label>
+                            <mat-select formControlName="authorNationality">
+                                <mat-option value="" selected></mat-option>
+                                <mat-option *ngFor="let nationality of nationalities" [value]="nationality">
+                                    {{ nationality }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Form line 4 - Form validation -->
+        <div class="form-row">
+            <div class="col-md-4 mb-1">
+                <button pButton type="submit" label="Rechercher des séries" class="ui-button-raised" icon="pi pi-search"
+                    iconPos="right" style="width: 100%;"></button>
+            </div>
+            <div class="col-md-4 mb-1">
+                <button pButton type="submit" label="Rechercher des albums" class="ui-button-raised" icon="pi pi-search"
+                    iconPos="right" style="width: 100%;"></button>
+            </div>
+            <div class="col-md-4 mb-1">
+                <button pButton type="submit" label="Rechercher des auteurs" class="ui-button-raised" icon="pi pi-search"
+                    iconPos="right" style="width: 100%;"></button>
+            </div>
+        </div>
+    </form>
+</mat-card>

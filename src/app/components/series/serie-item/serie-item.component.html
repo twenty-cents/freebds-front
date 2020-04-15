@@ -1,0 +1,39 @@
+<!-- Serie card -->
+<div class="card mt-2">
+
+    <div class="card-header text-white bg-dark">
+        <h5 class="mb-1"> {{ serie.title }}</h5>
+        <p class="mb-1"> {{ serie.categories }} | {{ serie.langage }} | {{ serie.origin }} | {{ serie.status }} </p>  
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-md-4" style="max-width: 200px;">
+
+            <div class="row no-gutters">
+                <div class="col-md-12">
+                    <img [src]="serie.pageThumbnailUrl" class="card-img p-1"
+                        alt="...">
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+
+            <div class="card-body bg-white">
+                <dl class="dl-horizontal">
+                    <dt>ID Bedetheque</dt>
+                    <dd>{{ serie.externalId }}</dd>
+                    <dt>Site internet</dt>
+                    <dd>{{ serie.siteUrl }}</dd>
+                    <dt>Synopsys</dt>
+                    <dd>{{ serie.synopsys }}</dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Graphic novels cards -->
+<app-graphic-novels-list [serie]="serie"></app-graphic-novels-list>

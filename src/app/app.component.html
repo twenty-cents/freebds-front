@@ -1,3 +1,36 @@
+<!-- General wrapper -->
+<div class="layout-wrapper">
+
+    <!-- Screen size detector -->
+    <app-size-detector></app-size-detector>
+
+    <!-- Top bar app -->
+    <app-top-bar (sidebarLeftToggled)="handleToggleSidebarLeft()"></app-top-bar>
+
+    <!-- Side menu left -->
+    <app-sidebar-left [toggle]="expanded"></app-sidebar-left>
+
+    <!-- Main content -->
+    <div class="container-fluid mt-5">
+        <div class="row">
+
+            <!-- Sidebar left empty space for lg, xl devices -->
+            <div class="col sticky-sidebar"></div>
+
+            <!-- Main content viewport -->
+            <div class="col">
+
+                <app-breadcrumb-main></app-breadcrumb-main>
+                <div class="mb-3"></div>
+
+                <router-outlet></router-outlet>
+ 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
 <p-table [columns]="cols" [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="10">
     <ng-template pTemplate="header" let-columns>
         <tr>
@@ -42,3 +75,4 @@
         </div>
     </p-footer>
 </p-dialog>
+-->

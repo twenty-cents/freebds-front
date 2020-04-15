@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-md-4">
+        <mat-card>
+            <mat-card-header class="justify-content-center ">
+                <mat-card-title>{{countReferentialSeries}} séries</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+    </div>
+
+    <div class="col-md-4">
+        <mat-card>
+            <mat-card-header class="justify-content-center">
+                <mat-card-title>{{countReferentialGraphicNovels}} albums</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+    </div>
+
+    <div class="col-md-4">
+        <mat-card>
+            <mat-card-header class="justify-content-center">
+                <mat-card-title>{{countReferentialAuthors}} auteurs</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <app-origins [data]="data"></app-origins>
+    </div>
+
+    <div class="col-md-4">
+        <app-origins2></app-origins2>
+    </div>
+
+</div>
+

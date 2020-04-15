@@ -1,0 +1,6 @@
+<h5 class="mt-3">{{ pager.totalElements + " album(s)"}}</h5>
+<div *ngFor="let graphicNovel of graphicNovels">
+    <app-graphic-novel-item [graphicNovel]="graphicNovel"></app-graphic-novel-item>
+</div>
+<!-- Paginator -->
+<app-my-paginator [pagerParams]="pager" (notifyPagination)="onPaginate($event)"></app-my-paginator>

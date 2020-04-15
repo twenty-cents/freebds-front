@@ -1,0 +1,21 @@
+export interface FreeSearchFilters {
+    serieTitle: '',
+    serieExternalId: '',
+    serieCategory: '',
+    serieStatus: '',
+    serieOrigin: '',
+    serieLanguage: '',
+    graphicNovelTitle: '',
+    graphicNovelExternalId: '',
+    graphicNovelPublisher: '',
+    graphicNovelCollection: '',
+    graphicNovelISBN: '',
+    graphicNovelPublicationDateFrom: '',
+    graphicNovelPublicationDateTo: '',
+    graphicNovelRepublication: '',
+    authorLastname: '',
+    authorFirstname: '',
+    authorNickname: '',
+    authorExternalId: '',
+    authorNationality: ''
+}

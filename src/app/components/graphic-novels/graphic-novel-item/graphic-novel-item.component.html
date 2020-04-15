@@ -1,0 +1,59 @@
+<div class="card mb-3">
+
+    <div class="row no-gutters">
+        <div class="col-md-4" style="max-width: 200px">
+
+            <div class="row no-gutters">
+                <div class="col-md-12">
+                    <img [src]="graphicNovel.coverThumbnailUrl" class="card-img p-1"
+                        alt="...">
+                </div>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img [src]="graphicNovel.coverThumbnailUrl" class="card-img p-1"
+                        alt="...">
+                </div>
+                <div class="col-md-4">
+                    <img [src]="graphicNovel.pageThumbnailUrl" class="card-img p-1"
+                        alt="...">
+                </div>
+                <div class="col-md-4">
+                    <img [src]="graphicNovel.backCoverThumbnailUrl" class="card-img p-1"
+                        alt="...">
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+
+            <div class="card-body bg-white">
+                <h5 class="card-title">{{ graphicNovel.tome + graphicNovel.numEdition + ". " + graphicNovel.title }}</h5>
+                <dl class="dl-horizontal">
+                    <dt>ID Bedetheque</dt>
+                    <dd>{{ graphicNovel.externalId }}</dd>
+                    <div *ngFor="let author of authors">
+                        <dt>{{author.role}}</dt>
+                        <dd><a [routerLink]="['/authors', author.id]">{{author.name}}</a></dd>
+                    </div>
+                    <dt>Dépôt légal</dt>
+                    <dd>{{ graphicNovel.publicationDate.substring(0, 7) }}</dd>
+                    <dt>Editeur</dt>
+                    <dd>{{ graphicNovel.publisher }}</dd>
+                    <dt>Format</dt>
+                    <dd>{{ graphicNovel.format }}</dd>
+                    <dt>ISBN</dt>
+                    <dd>{{ graphicNovel.isbn }}</dd>
+                    <dt>Infos édition</dt>
+                    <dd>{{ graphicNovel.infoEdition }}</dd>
+                    <dt><a href="#" class="card-link">Rééditions</a></dt>
+                </dl>
+            </div>
+            <div>
+                <p-splitButton label="Ajouter dans ma collection" (onClick)="addToCollection(0)" [model]="addItems" styleClass="ui-button-success"></p-splitButton>
+            </div>
+        </div>
+    </div>
+
+</div>
