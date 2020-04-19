@@ -1,1 +1,60 @@
-<p>authors-table works!</p>
+<mat-card class="mat-elevation-z6">
+    <mat-card-header>
+        <mat-card-title>{{resultsLength}} auteur(s) trouvé()</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="example-loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+
+        <div class="example-table-container">
+
+            <table mat-table [dataSource]="authors" class="example-table" matSort matSortActive="lastname"
+                matSortDisableClear matSortDirection="asc">
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>#</th>
+                    <td mat-cell *matCellDef="let author"><b>{{author.id}}</b></td>
+                </ng-container>
+
+                <!-- lastname Column -->
+                <ng-container matColumnDef="lastname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nom</th>
+                    <td mat-cell *matCellDef="let author">{{author.lastname}}</td>
+                </ng-container>
+
+                <!-- firstname Column -->
+                <ng-container matColumnDef="firstname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Prénom</th>
+                    <td mat-cell *matCellDef="let author">{{author.firstname}}</td>
+                </ng-container>
+
+                <!-- nickname Column -->
+                <ng-container matColumnDef="nickname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Pseudo</th>
+                    <td mat-cell *matCellDef="let author">{{author.nickname}}</td>
+                </ng-container>
+
+                <!-- nationality Column -->
+                <ng-container matColumnDef="nationality">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nationalité</th>
+                    <td mat-cell *matCellDef="let author">{{author.nationality}}</td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let author">
+                        <a [routerLink]="['/authors', author.id, context]"
+                            class="btn btn-info btn-sm">Afficher</a></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let author; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
+    </mat-card-content>
+</mat-card>

@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router'
 
-import {MenuItem} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 
 import { BreadcrumbMainService } from '../../../../services/commons/breadcrumb-main.service';
 import { SeriesService } from '../../../../services/bds/series.service';
 import { AuthorsService } from '../../../../services/bds/authors.service';
 import { FreeSearchFilters } from '../../../../models/bds/free-search/free-search-filters';
+import { FreeSearchService } from '../../../../services/freeSearch/free-search.service';
 
 @Component({
   selector: 'app-free-search-filters',
@@ -18,6 +20,7 @@ export class FreeSearchFiltersComponent implements OnInit {
 
   filterForm;
   submitted = false;
+  context: string;
 
   origins = [];
   status = [];
@@ -27,8 +30,10 @@ export class FreeSearchFiltersComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private breadcrumbMainService: BreadcrumbMainService,
-    private serieService: SeriesService,
+    private freeSearchService: FreeSearchService,
+    private seriesService: SeriesService,
     private authorService: AuthorsService,
     private formBuilder: FormBuilder) {
 
@@ -37,32 +42,46 @@ export class FreeSearchFiltersComponent implements OnInit {
 
 
   ngOnInit() {
-    // Init breacrumb
-    let item: MenuItem = {label: 'Encyclopédie', routerLink: ['referential/free-search']};
-    this.breadcrumbMainService.initialize(item);
-    item = {label: 'Consultation', routerLink: ['referential/free-search']};
-    this.breadcrumbMainService.add(item);
+    this.route.paramMap.subscribe(params => {
+      this.context = params.get('context');
 
-    // Init filter form
-    this.serieService.getOrigins().subscribe(dataList => {
-      this.origins = dataList.origins;
+      if (this.context == 'referential') {
+        // Init breacrumb referential
+        let item: MenuItem = { label: 'Encyclopédie', routerLink: ['free-search', 'referential'] };
+        this.breadcrumbMainService.initialize(item);
+        item = { label: 'Consultation', routerLink: ['free-search', 'referential'] };
+        this.breadcrumbMainService.add(item);
+      } else {
+        // Init breacrumb collection
+        let item: MenuItem = { label: 'Collection', routerLink: ['free-search', 'library'] };
+        this.breadcrumbMainService.initialize(item);
+        item = { label: 'Consultation', routerLink: ['free-search', 'library'] };
+        this.breadcrumbMainService.add(item);
+      }
+
+      // Init filter form
+      this.seriesService.getOrigins().subscribe(dataList => {
+        this.origins = dataList.origins;
+      });
+
+      this.seriesService.getStatus().subscribe(dataList => {
+        this.status = dataList.status;
+      });
+
+      this.seriesService.getCategories().subscribe(dataList => {
+        this.categories = dataList.categories;
+      });
+
+      this.seriesService.getLanguages().subscribe(dataList => {
+        this.languages = dataList.languages;
+      });
+
+      this.authorService.getNationalities().subscribe(dataList => {
+        this.nationalities = dataList.nationalities;
+      });
+
     });
 
-    this.serieService.getStatus().subscribe(dataList => {
-      this.status = dataList.status;
-    });
-
-    this.serieService.getCategories().subscribe(dataList => {
-      this.categories = dataList.categories;
-    });
-    
-    this.serieService.getLanguages().subscribe(dataList => {
-      this.languages = dataList.languages;
-    });
-
-    this.authorService.getNationalities().subscribe(dataList => {
-      this.nationalities = dataList.nationalities;
-    });    
   }
 
   initFilterForm() {
@@ -90,33 +109,49 @@ export class FreeSearchFiltersComponent implements OnInit {
     });
   }
 
-    /**
-   * Generic error manager for the form controler
-   * @param controlName The name property of the field to control (see <mat-error> tag in the template for more details)
-   * @param errorName The name property of the error to control (see <mat-error> tag in the template for more details)
-   */
-  hasError = (controlName: string, errorName: string) =>{
+  /**
+ * Generic error manager for the form controler
+ * @param controlName The name property of the field to control (see <mat-error> tag in the template for more details)
+ * @param errorName The name property of the error to control (see <mat-error> tag in the template for more details)
+ */
+  hasError = (controlName: string, errorName: string) => {
     return this.filterForm.controls[controlName].hasError(errorName);
   }
 
-
-  freeResearchHandle(freeSearchFilters: FreeSearchFilters) {
-    console.log(freeSearchFilters);
+  filterBySeries(freeSearchFilters: FreeSearchFilters) {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.filterForm.invalid) {
       return;
     }
-
-    this.serieService.freeSearchFiltersSubject.next(freeSearchFilters);
-
-    this.router.navigate(['../', 'series']);
+    this.freeSearchService.freeSearchFilters = freeSearchFilters;
+    this.router.navigate(['../', 'series', this.context]);
   }
 
-    /**
-   * Reset User Form
-   */
+
+  filterByGraphicNovels(freeSearchFilters: FreeSearchFilters) {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.filterForm.invalid) {
+      return;
+    }
+    this.freeSearchService.freeSearchFilters = freeSearchFilters;
+    this.router.navigate(['../', 'graphic-novels', this.context]);
+  }
+
+  filterByAuthors(freeSearchFilters: FreeSearchFilters) {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.filterForm.invalid) {
+      return;
+    }
+    this.freeSearchService.freeSearchFilters = freeSearchFilters;
+    this.router.navigate(['../', 'authors', this.context]);
+  }
+
+  /**
+ * Reset User Form
+ */
   resetUserForm() {
     this.submitted = false;
     this.initFilterForm();

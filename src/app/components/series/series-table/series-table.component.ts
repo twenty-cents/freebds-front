@@ -1,4 +1,5 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, SimpleChange } from '@angular/core';
+import { ActivatedRoute } from '@angular/router'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
@@ -9,11 +10,10 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import {MenuItem} from 'primeng/api';
 
 import { BreadcrumbMainService } from '../../../services/commons/breadcrumb-main.service';
-import { SeriesService } from '../../../services/bds/series.service';
+import { FreeSearchService } from '../../../services/freeSearch/free-search.service';
 import { FreeSearchFilters } from '../../../models/bds/free-search/free-search-filters';
 import { SeriesListPager } from '../../../models/bds/series/series-list-pager';
 import { Serie } from '../../../models/bds/series/serie';
-import { PagerParams } from '../../../models/commons/pager-params';
 
 
 @Component({
@@ -23,7 +23,7 @@ import { PagerParams } from '../../../models/commons/pager-params';
 })
 export class SeriesTableComponent implements AfterViewInit {
 
-  @Input() source: string;
+  @Input() context: string;
 
   displayedColumns: string[] = ['id', 'title', 'categories', 'status', 'origin', 'action'];
   resultsLength = 0;
@@ -39,33 +39,37 @@ export class SeriesTableComponent implements AfterViewInit {
   series: Serie[] = [];
 
   constructor(
-    private seriesService: SeriesService,
+    private route: ActivatedRoute,
+    private freeSearchService: FreeSearchService,
     private breadcrumbMainService: BreadcrumbMainService,
   ) {
   }
 
   ngAfterViewInit() {
+    this.route.paramMap.subscribe(params => {
+      this.context = params.get('context');
 
     // Init breacrumb
     let item: MenuItem = { label: 'Résultats', routerLink: ['series'] };
     this.breadcrumbMainService.add(item);
 
-    this.freeSearchFilters = this.seriesService.freeSearchFilters;
+    this.freeSearchFilters = this.freeSearchService.freeSearchFilters;
 
-    //this.paginate(0);
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
+    this.loadSeries();
+    });
+  }
+
+  loadSeries() {
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.seriesService.freeSearchBySeries(this.freeSearchFilters, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active + ',' + this.sort.direction)
-        }),
-        //return this.exampleDatabase!.getRepoIssues(
-        //  this.sort.active, this.sort.direction, this.paginator.pageIndex);
-        //}),
+          return this.freeSearchService.searchSeries(this.context, this.freeSearchFilters, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active + ',' + this.sort.direction);
+          }),
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
@@ -81,15 +85,14 @@ export class SeriesTableComponent implements AfterViewInit {
       ).subscribe(data => {
         this.series = data;
       });
-
   }
 
-  displaySerie(serie: Serie) {
-    console.log("to emit=" + serie.title);
-    this.serieToDisplay = serie;
+  ngOnChanges(change: SimpleChange) {
+    if (change['context'] != undefined) {
+      this.context = change['context'].currentValue;
+    }
+    this.loadSeries();
   }
 
-  onNotify() {
 
-  }
 }

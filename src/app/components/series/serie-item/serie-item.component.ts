@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 
+import {MenuItem} from 'primeng/api';
+
+import { BreadcrumbMainService } from '../../../services/commons/breadcrumb-main.service';
 import { SeriesService } from '../../../services/bds/series.service';
 import { Serie } from '../../../models/bds/series/serie';
 
@@ -13,11 +16,12 @@ import { Serie } from '../../../models/bds/series/serie';
 export class SerieItemComponent implements OnInit {
 
   serie: Serie;
-
+  context: string;
 
   constructor(
     private route: ActivatedRoute,
     private seriesService: SeriesService,
+    private breadcrumbMainService: BreadcrumbMainService
 
       ) {
         this.serie = {
@@ -36,14 +40,24 @@ export class SerieItemComponent implements OnInit {
        }
 
   ngOnInit() {
-    // Get the serie id from the activated route
+    // Get the context & serie id from the activated route
     this.route.paramMap.subscribe(params => {
+      this.context = params.get('context');
+
       // Load the serie
       this.seriesService.getSerieById(+params.get('serie.id')).subscribe(serie => {
         this.serie = serie;
+
+        // Init breacrumb
+        let item: MenuItem = { label: this.serie.title, routerLink: ['/series', this.serie.id] };
+        this.breadcrumbMainService.add(item);
       });
 
     });
+  }
+
+  ngOnDestroy(): void {
+    this.breadcrumbMainService.removeLast();
   }
 
 }

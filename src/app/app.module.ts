@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 
 // Angular Material
 import {A11yModule} from '@angular/cdk/a11y';
@@ -60,6 +60,9 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import {PanelModule} from 'primeng/panel';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {SplitButtonModule} from 'primeng/splitbutton';
+import {LightboxModule} from 'primeng/lightbox';
+import {MessageModule} from 'primeng/message';
+import {RatingModule} from 'primeng/rating';
 
 // FreeBds
 // - Common components
@@ -70,6 +73,9 @@ import { SidebarLeftComponent } from './components/commons/sidebar-left/sidebar-
 import { ResizeService } from './services/commons/resize.service';
 import { SizeDetectorComponent } from './components/commons/size-detector/size-detector.component';
 import { BreadcrumbMainComponent } from './components/commons/breadcrumb-main/breadcrumb-main.component';
+import { MyPaginatorComponent } from './components/commons/my-paginator/my-paginator.component';
+import { authInterceptorProviders } from './interceptors/auth.interceptor';
+import { LoginComponent } from './components/security/login/login.component';
 // - Referential
 import { FreeSearchManagerComponent } from './components/referential/free-search/free-search-manager/free-search-manager.component';
 import { FreeSearchFiltersComponent } from './components/referential/free-search/free-search-filters/free-search-filters.component';
@@ -88,6 +94,14 @@ import { AuthorsTableByLetterComponent } from './components/authors/authors-tabl
 import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
 import { OriginsComponent } from './components/dashboard/origins/origins.component';
 import { Origins2Component } from './components/dashboard/origins2/origins2.component';
+import { GraphicNovelsTableComponent } from './components/graphic-novels/graphic-novels-table/graphic-novels-table.component';
+import { GraphicNovelPageComponent } from './components/graphic-novels/graphic-novel-page/graphic-novel-page.component';
+import { GraphicsNovelsListXsComponent } from './components/graphic-novels/graphics-novels-list-xs/graphics-novels-list-xs.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/security/profile/profile.component';
+import { RegisterComponent } from './components/security/register/register.component';
+
+
 
 @NgModule({
     declarations: [
@@ -96,6 +110,7 @@ import { Origins2Component } from './components/dashboard/origins2/origins2.comp
         SidebarLeftComponent,
         SizeDetectorComponent,
         BreadcrumbMainComponent,
+        MyPaginatorComponent,
         // Referential
         FreeSearchManagerComponent,
         FreeSearchFiltersComponent,
@@ -113,7 +128,14 @@ import { Origins2Component } from './components/dashboard/origins2/origins2.comp
         AuthorsTableByLetterComponent,
         DashboardComponent,
         OriginsComponent,
-        Origins2Component
+        Origins2Component,
+        GraphicNovelsTableComponent,
+        GraphicNovelPageComponent,
+        GraphicsNovelsListXsComponent,
+        LoginComponent,
+        HomeComponent,
+        ProfileComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,
@@ -121,6 +143,7 @@ import { Origins2Component } from './components/dashboard/origins2/origins2.comp
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
+        HttpClientXsrfModule.withOptions({cookieName: 'XSRF-TOKEN'}),
         AppRoutingModule,
         // Angular Material
         A11yModule,
@@ -176,9 +199,15 @@ import { Origins2Component } from './components/dashboard/origins2/origins2.comp
         PanelMenuModule,
         PanelModule,
         BreadcrumbModule,
-        SplitButtonModule
+        SplitButtonModule,
+        LightboxModule,
+        MessageModule,
+        RatingModule
     ],
-    providers: [ResizeService],
+    providers: [
+        ResizeService,
+        authInterceptorProviders
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

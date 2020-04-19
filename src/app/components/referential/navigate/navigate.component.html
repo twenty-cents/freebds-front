@@ -3,6 +3,7 @@
       <div class="container-fluid no-gutters p-0 m-0">
 
         <div class="d-flex justify-content-center p-2">
+            <button pButton type="button" label="Tout" class="ui-button-raised ui-button-success mr-2" (click)="handleLetterBySerie($event, '')"></button>
             <button pButton type="button" label="#" class="ui-button-raised" (click)="handleLetterBySerie($event, '0')"></button>
             <button pButton type="button" label="A" class="ui-button-raised" (click)="handleLetterBySerie($event, 'A')"></button>
             <button pButton type="button" label="B" class="ui-button-raised" (click)="handleLetterBySerie($event, 'B')"></button>
@@ -43,6 +44,7 @@
         <div class="container-fluid no-gutters p-0 m-0">
 
             <div class="d-flex justify-content-center p-2">
+                <button pButton type="button" label="Tout" class="ui-button-raised ui-button-success mr-2" (click)="handleLetterByAuthor($event, '')"></button>
                 <button pButton type="button" label="#" class="ui-button-raised" (click)="handleLetterByAuthor($event, '0')"></button>
                 <button pButton type="button" label="A" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'A')"></button>
                 <button pButton type="button" label="B" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'B')"></button>

@@ -1,59 +1,87 @@
-<div class="card mb-3">
+<mat-card>
+    <mat-card-content>
 
-    <div class="row no-gutters">
-        <div class="col-md-4" style="max-width: 200px">
-
-            <div class="row no-gutters">
-                <div class="col-md-12">
-                    <img [src]="graphicNovel.coverThumbnailUrl" class="card-img p-1"
-                        alt="...">
-                </div>
-            </div>
+        <div class="card mb-3 no-border">
 
             <div class="row no-gutters">
-                <div class="col-md-4">
-                    <img [src]="graphicNovel.coverThumbnailUrl" class="card-img p-1"
-                        alt="...">
-                </div>
-                <div class="col-md-4">
-                    <img [src]="graphicNovel.pageThumbnailUrl" class="card-img p-1"
-                        alt="...">
-                </div>
-                <div class="col-md-4">
-                    <img [src]="graphicNovel.backCoverThumbnailUrl" class="card-img p-1"
-                        alt="...">
-                </div>
-            </div>
+                <div class="col-md-4" style="max-width: 200px">
 
-        </div>
-        <div class="col-md-8">
-
-            <div class="card-body bg-white">
-                <h5 class="card-title">{{ graphicNovel.tome + graphicNovel.numEdition + ". " + graphicNovel.title }}</h5>
-                <dl class="dl-horizontal">
-                    <dt>ID Bedetheque</dt>
-                    <dd>{{ graphicNovel.externalId }}</dd>
-                    <div *ngFor="let author of authors">
-                        <dt>{{author.role}}</dt>
-                        <dd><a [routerLink]="['/authors', author.id]">{{author.name}}</a></dd>
+                    <div class="row no-gutters">
+                        <div class="col-md-12">
+                            <p-lightbox [images]="cover" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
                     </div>
-                    <dt>Dépôt légal</dt>
-                    <dd>{{ graphicNovel.publicationDate.substring(0, 7) }}</dd>
-                    <dt>Editeur</dt>
-                    <dd>{{ graphicNovel.publisher }}</dd>
-                    <dt>Format</dt>
-                    <dd>{{ graphicNovel.format }}</dd>
-                    <dt>ISBN</dt>
-                    <dd>{{ graphicNovel.isbn }}</dd>
-                    <dt>Infos édition</dt>
-                    <dd>{{ graphicNovel.infoEdition }}</dd>
-                    <dt><a href="#" class="card-link">Rééditions</a></dt>
-                </dl>
-            </div>
-            <div>
-                <p-splitButton label="Ajouter dans ma collection" (onClick)="addToCollection(0)" [model]="addItems" styleClass="ui-button-success"></p-splitButton>
-            </div>
-        </div>
-    </div>
 
-</div>
+                    <div class="row no-gutters">
+                        <div class="col-md-4 align-items-start">
+                            <p-lightbox [images]="cover" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
+                        <div class="col-md-4">
+                            <p-lightbox [images]="page" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
+                        <div class="col-md-4">
+                            <p-lightbox [images]="backCover" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-8">
+
+                    <div class="card-body bg-white">
+                        <h5 class="card-title">
+                            {{ graphicNovel.tome + graphicNovel.numEdition + ". " + graphicNovel.title }}</h5>
+                        <dl class="dl-horizontal">
+                            <dt>ID Bedetheque</dt>
+                            <dd>{{ graphicNovel.id + " / " + graphicNovel.externalId }}</dd>
+                            <div *ngFor="let author of authors">
+                                <dt>{{author.role}}</dt>
+                                <dd><a [routerLink]="['/authors', author.id]">{{author.name}}</a></dd>
+                            </div>
+                            <dt>Dépôt légal</dt>
+                            <dd>{{ graphicNovel.publicationDate.substring(0, 7) }}</dd>
+                            <dt>Editeur</dt>
+                            <dd>{{ graphicNovel.publisher }}</dd>
+                            <dt>Format</dt>
+                            <dd>{{ graphicNovel.format }}</dd>
+                            <dt>ISBN</dt>
+                            <dd>{{ graphicNovel.isbn }}</dd>
+                            <dt>Note</dt>
+                            <dd><p-rating [(ngModel)]="note" [cancel]="false"></p-rating></dd>
+                            <dt>Infos édition</dt>
+                            <dd>{{ graphicNovel.infoEdition }} , {{ inCollection }}</dd>
+                            <dt><a href="#" class="card-link">Rééditions</a></dt>
+                        </dl>
+                    </div>
+                    <div *ngIf="context == 'referential'" class="d-flex justify-content-end">
+                        <p-splitButton [style.display]="!inCollection ? 'block' : 'none'" class="ml-3"
+                            label="Ajouter dans ma collection" (onClick)="addToCollection(0)" [model]="addItems"
+                            styleClass="ui-button-success"></p-splitButton>
+
+                        <button [style.display]="inCollection ? 'block' : 'none'" pButton type="button"
+                            label="Album présent dans ma collection" class="ml-3 ui-button-warning inactive"></button>
+                    </div>
+
+                    <div *ngIf="context == 'library'" class="ml-3">
+                        <p-message [style.display]="graphicNovel.libraryContent.isNumeric ? 'inline' : 'none'" severity="info" text="Format numérique" class="mr-1"></p-message>
+                        <p-message [style.display]="graphicNovel.libraryContent.isPhysical ? 'inline' : 'none'" severity="info" text="Format physique" class="mr-1"></p-message>
+                        <p-message [style.display]="graphicNovel.libraryContent.isFavorite ? 'inline' : 'none'" severity="success" text="Favori" class="mr-1"></p-message>
+                        <p-message [style.display]="graphicNovel.libraryContent.isWishlist ? 'inline' : 'none'" severity="warn" text="Liste de souhaits" class="mr-1"></p-message>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </mat-card-content>
+
+    <mat-card-footer *ngIf="context == 'library'" class="mb-1">
+        <mat-divider></mat-divider>
+        <div class="d-flex  justify-content-between align-items-start pt-2">
+            <button pButton type="button" label="Supprimer de la collection" class="ui-button-raised ui-button-danger m-2"
+            style="width: 210px;" icon="pi pi-trash" iconPos="left"></button>
+
+            <button pButton type="button" label="Modifier la fiche album" class="ui-button-raised ui-button-success m-2"
+             style="width: 210px;" icon="pi pi-pencil" iconPos="left"></button>
+        </div>
+    </mat-card-footer>
+</mat-card>

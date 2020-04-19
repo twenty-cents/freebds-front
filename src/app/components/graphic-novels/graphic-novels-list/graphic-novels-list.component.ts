@@ -13,6 +13,7 @@ import { PagerParams } from '../../../models/commons/pager-params';
 })
 export class GraphicNovelsListComponent implements OnInit {
 
+  @Input() context: string;
   @Input() serie: Serie;
 
   graphicNovels: GraphicNovel[];
@@ -33,10 +34,15 @@ export class GraphicNovelsListComponent implements OnInit {
   }
 
   ngOnChanges(change: SimpleChange) {
-    // Get changes
-    this.serie = change['serie'].currentValue;
-    if(this.serie.id != 0) {
-      this.paginate(0);
+    if (change['context'] != undefined) {
+      this.context = change['context'].currentValue;
+    }
+
+    if (change['serie'] != undefined) {
+      this.serie = change['serie'].currentValue;
+      if (this.serie.id != 0) {
+        this.paginate(0);
+      }
     }
   }
 
@@ -57,21 +63,39 @@ export class GraphicNovelsListComponent implements OnInit {
  */
   paginate(pageNumber: number) {
     // Load serie's graphic novels
-    this.graphicNovelsService.getGraphicNovelsBySerie(this.serie.id, pageNumber, 20, "publicationDate,asc").subscribe(graphicNovelsListPager => {
-      this.graphicNovels = graphicNovelsListPager.content;
+    if (this.context == 'referential') {
 
-      let currentPager: PagerParams;
-      currentPager = {
-        currentPage: graphicNovelsListPager.number,
-        totalPages: graphicNovelsListPager.totalPages,
-        pageTotalElements: this.graphicNovels.length,
-        totalElements: graphicNovelsListPager.totalElements,
-        size: graphicNovelsListPager.size
-      }
+      this.graphicNovelsService.getGraphicNovelsBySerie(this.serie.id, pageNumber, 20, "publicationDate,asc").subscribe(graphicNovelsListPager => {
+        this.graphicNovels = graphicNovelsListPager.content;
 
-      this.pager = currentPager;
+        let currentPager: PagerParams;
+        currentPager = {
+          currentPage: graphicNovelsListPager.number,
+          totalPages: graphicNovelsListPager.totalPages,
+          pageTotalElements: this.graphicNovels.length,
+          totalElements: graphicNovelsListPager.totalElements,
+          size: graphicNovelsListPager.size
+        }
+        this.pager = currentPager;
+      });
+    }
 
-    });
+    if (this.context == 'library') {
+
+      this.graphicNovelsService.getGraphicNovelsFromLibraryBySerie(this.serie.id, pageNumber, 20, "publicationDate,asc").subscribe(graphicNovelsListPager => {
+        this.graphicNovels = graphicNovelsListPager.content;
+
+        let currentPager: PagerParams;
+        currentPager = {
+          currentPage: graphicNovelsListPager.number,
+          totalPages: graphicNovelsListPager.totalPages,
+          pageTotalElements: this.graphicNovels.length,
+          totalElements: graphicNovelsListPager.totalElements,
+          size: graphicNovelsListPager.size
+        }
+        this.pager = currentPager;
+      });
+    }
   }
 
 

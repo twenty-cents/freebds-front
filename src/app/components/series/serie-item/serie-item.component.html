@@ -1,39 +1,69 @@
 <!-- Serie card -->
-<div class="card mt-2">
+<div class="d-flex">
+    <div class="d-flex flex-column">
 
-    <div class="card-header text-white bg-dark">
-        <h5 class="mb-1"> {{ serie.title }}</h5>
-        <p class="mb-1"> {{ serie.categories }} | {{ serie.langage }} | {{ serie.origin }} | {{ serie.status }} </p>  
-    </div>
+        <mat-card class="mat-elevation-z6 mb-2">
+            <mat-card-header class="bg-dark text-white pt-2">
+                <mat-card-title>{{ serie.title }}</mat-card-title>
+                <mat-card-subtitle class="text-light">{{ serie.categories }} | {{ serie.langage }} | {{ serie.origin }}
+                    | {{ serie.status }}</mat-card-subtitle>
+            </mat-card-header>
 
-    <div class="row no-gutters">
-        <div class="col-md-4" style="max-width: 200px;">
+            <mat-card-content>
+                <div class="card mb-3 no-border">
 
-            <div class="row no-gutters">
-                <div class="col-md-12">
-                    <img [src]="serie.pageThumbnailUrl" class="card-img p-1"
-                        alt="...">
+                    <div class="row no-gutters">
+                        <div class="col-md-4" style="max-width: 200px">
+
+                            <div class="row no-gutters">
+                                <div class="col-md-12">
+                                    <img [src]="serie.pageThumbnailUrl" class="card-img p-1" alt="...">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <div class="card-body bg-white">
+                                <dl class="dl-horizontal">
+                                    <dt>Identifiant</dt>
+                                    <dd>{{ serie.id }}</dd>
+                                    <dt>ID Bedetheque</dt>
+                                    <dd>{{ serie.id + " / " + serie.externalId }}</dd>
+                                    <dt>Style</dt>
+                                    <dd>{{ serie.categories }}</dd>
+                                    <dt>Origine</dt>
+                                    <dd>{{ serie.origin }}</dd>
+                                    <dt>Statut</dt>
+                                    <dd>{{ serie.status }}</dd>
+                                    <dt>Site internet</dt>
+                                    <dd>{{ serie.siteUrl }}</dd>
+                                    <dt>Tomes</dt>
+                                    <dd>TODO</dd>
+                                </dl>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <mat-divider [inset]="true" class="mt-1 mb-2"></mat-divider>
+                    <h5>Synopsys</h5>
+                    <div class="mt-1 ml-1">{{ serie.synopsys }}</div>
+
                 </div>
-            </div>
 
-        </div>
-        <div class="col-md-8">
+            </mat-card-content>
+        </mat-card>
 
-            <div class="card-body bg-white">
-                <dl class="dl-horizontal">
-                    <dt>ID Bedetheque</dt>
-                    <dd>{{ serie.externalId }}</dd>
-                    <dt>Site internet</dt>
-                    <dd>{{ serie.siteUrl }}</dd>
-                    <dt>Synopsys</dt>
-                    <dd>{{ serie.synopsys }}</dd>
-                </dl>
-            </div>
-
-        </div>
+        <!-- Graphic novels cards -->
+        <app-graphic-novels-list [serie]="serie" [context]="context"></app-graphic-novels-list>
     </div>
 
+    <div class="d-flex ml-2">
+        <app-graphics-novels-list-xs [serie]="serie" [context]="context"></app-graphics-novels-list-xs>
+    </div>
 </div>
 
-<!-- Graphic novels cards -->
-<app-graphic-novels-list [serie]="serie"></app-graphic-novels-list>

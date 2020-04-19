@@ -49,7 +49,7 @@ export class SeriesByLetterComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.seriesService.getSeriesByLetter(this.letter, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active + ',' + this.sort.direction)
+          return this.seriesService.getSeriesByLetter(this.context, this.letter, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active + ',' + this.sort.direction)
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -68,12 +68,18 @@ export class SeriesByLetterComponent implements AfterViewInit {
   }
 
   ngOnChanges(change: SimpleChange) {
-    console.log(change);
-    let letter: string = change['letter'].currentValue;
-    if(letter != undefined && change['letter'].firstChange != true) {
-      this.letter = letter;
-      this.load();
+    if(change['context'] != undefined){
+      this.context = change['context'].currentValue;
     }
+
+    if(change['letter'] != undefined) {
+      let letter: string = change['letter'].currentValue;
+      if(letter != undefined && change['letter'].firstChange != true) {
+        this.letter = letter;
+        this.load();
+      }
+    }
+
   }
 
 

@@ -1,0 +1,23 @@
+<!-- Custom Paginator -->
+<div class="d-flex justify-content-between">
+    <p>{{ pager.displayedPage }}</p>
+
+    <nav>
+        <ul class="pagination" *ngIf="pager.active">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item"><button class="page-link" 
+                    (click)="paginate(pager.first)"><span>|&laquo;</span></button></li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item"><button class="page-link" 
+                    (click)="paginate(pager.currentPage - 1)">&laquo;</button></li>
+
+            <li *ngFor="let view of pager.views" [ngClass]="{active:pager.currentPage === view}" class="page-item"><button
+                    *ngIf="view <= pager.pages" class="page-link" 
+                    (click)="paginate(view)">{{ view }}</button></li>
+
+            <li [ngClass]="{disabled:pager.currentPage === pager.pages}" class="page-item"><button  class="page-link" 
+                    (click)="paginate(pager.currentPage + 1)">&raquo;</button ></li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.pages}" class="page-item"><button class="page-link" 
+                    (click)="paginate(pager.last)"><span>&raquo;|</span></button></li>
+        </ul>
+    </nav>
+
+</div>

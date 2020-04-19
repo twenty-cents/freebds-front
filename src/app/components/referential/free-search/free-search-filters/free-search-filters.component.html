@@ -1,6 +1,6 @@
 <!-- Filters panel -->
 <mat-card class="mat-elevation-z6">
-    <form [formGroup]="filterForm" (ngSubmit)="freeResearchHandle(filterForm.value)">
+    <form [formGroup]="filterForm">
         <div class="form-row">
 
             <!-- ++++++++++++++++++++++++++++++++++++++ -->
@@ -303,16 +303,16 @@
         <!-- Form line 4 - Form validation -->
         <div class="form-row">
             <div class="col-md-4 mb-1">
-                <button pButton type="submit" label="Rechercher des séries" class="ui-button-raised" icon="pi pi-search"
-                    iconPos="right" style="width: 100%;"></button>
+                <button pButton type="button" label="Rechercher des séries" class="ui-button-raised" icon="pi pi-search"
+                    iconPos="right" style="width: 100%;" (click)="filterBySeries(filterForm.value)"></button>
             </div>
             <div class="col-md-4 mb-1">
-                <button pButton type="submit" label="Rechercher des albums" class="ui-button-raised" icon="pi pi-search"
-                    iconPos="right" style="width: 100%;"></button>
+                <button pButton type="button" label="Rechercher des albums" class="ui-button-raised" icon="pi pi-search"
+                    iconPos="right" style="width: 100%;" (click)="filterByGraphicNovels(filterForm.value)"></button>
             </div>
             <div class="col-md-4 mb-1">
-                <button pButton type="submit" label="Rechercher des auteurs" class="ui-button-raised" icon="pi pi-search"
-                    iconPos="right" style="width: 100%;"></button>
+                <button pButton type="button" label="Rechercher des auteurs" class="ui-button-raised" icon="pi pi-search"
+                    iconPos="right" style="width: 100%;" (click)="filterByAuthors(filterForm.value)"></button>
             </div>
         </div>
     </form>

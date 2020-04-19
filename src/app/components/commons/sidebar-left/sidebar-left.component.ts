@@ -50,16 +50,16 @@ export class SidebarLeftComponent implements OnInit {
           label: 'Encyclopédie Bds',
           icon: 'pi pi-fw pi-pencil',
           items: [
-            {label: 'Navigation libre', icon: 'pi pi-fw pi-refresh', routerLink: ['referential/navigate']},
-            {label: 'Recherche', icon: 'pi pi-fw pi-trash', routerLink: ['referential/free-search']}
+            {label: 'Navigation libre', icon: 'pi pi-fw pi-refresh', routerLink: ['navigate', 'referential']},
+            {label: 'Recherche', icon: 'pi pi-fw pi-trash', routerLink: ['free-search', 'referential']}
           ]
       },
       {
           label: 'Ma collection',
           icon: 'pi pi-fw pi-question',
           items: [
-            {label: 'Navigation libre', icon: 'pi pi-fw pi-refresh', routerLink: ['collection/navigate']},
-            {label: 'Recherche', icon: 'pi pi-fw pi-trash', routerLink: ['collection/free-search']}
+            {label: 'Navigation libre', icon: 'pi pi-fw pi-refresh', routerLink: ['navigate', 'library']},
+            {label: 'Recherche', icon: 'pi pi-fw pi-trash', routerLink: ['free-search', 'library']}
           ]
       },
       {

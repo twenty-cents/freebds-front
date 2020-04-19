@@ -2,6 +2,9 @@ import { Component, OnInit, SimpleChange } from '@angular/core';
 import { Input } from '@angular/core';
 
 import {MenuItem} from 'primeng/api';
+import {LightboxModule} from 'primeng/lightbox';
+
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { GraphicNovel } from '../../../models/bds/graphic-novels/graphic-novel';
 import { GraphicNovelsListPager } from '../../../models/bds/graphic-novels/graphic-novels-list-pager';
@@ -17,14 +20,23 @@ import { LibraryGraphicNovelsService } from '../../../services/collection/librar
 })
 export class GraphicNovelItemComponent implements OnInit {
 
+  @Input() context: string;
   @Input() graphicNovel: GraphicNovel;
 
   authors: AuthorRole[] = [];
 
   addItems: MenuItem[];
+  
+  cover: any[] = [];
+  page: any[] = [];
+  backCover: any[] = [];
+
+  note: number = 4;
+  inCollection = false;
 
   constructor(
     private graphicNovelsService: GraphicNovelsService,
+    private snackBar: MatSnackBar,
     private libraryGraphicNovelsService: LibraryGraphicNovelsService) {
     this.graphicNovel = {
       id: 0,
@@ -52,7 +64,7 @@ export class GraphicNovelItemComponent implements OnInit {
       backCoverThumbnailUrl: '',
       pageUrl: '',
       pageThumbnailUrl: ''
-    } 
+    }   
   }
 
   ngOnInit() {
@@ -111,6 +123,17 @@ export class GraphicNovelItemComponent implements OnInit {
         }
       }
       this.authors = authors;
+
+      // Btn Add to collection
+      if(this.graphicNovel.libraryContent !== null) {
+          this.inCollection = true;
+      }
+
+      // Add covers to the lightbox
+      this.cover.push({source: this.graphicNovel.coverPictureUrl, thumbnail: this.graphicNovel.coverThumbnailUrl, title:'Couverture recto'});
+      this.page.push({source: this.graphicNovel.pageUrl, thumbnail: this.graphicNovel.pageThumbnailUrl, title:'Extrait'});
+      this.backCover.push({source: this.graphicNovel.backCoverPictureUrl, thumbnail: this.graphicNovel.backCoverThumbnailUrl, title:'Couverture verso'});
+
   }
 
   private addAuthor(index: number, role: string, lastname: string, firstname: string, nickname: string): Property {
@@ -146,11 +169,18 @@ export class GraphicNovelItemComponent implements OnInit {
 
 
   ngOnChanges(change: SimpleChange) {
-    this.graphicNovel = change['graphicNovel'].currentValue;
-    if (this.graphicNovel.id === 0 || this.graphicNovel.id === undefined || this.graphicNovel.id === null){
-    } else {
-      this.initGraphicNovel();
+    if (change['context'] != undefined) {
+      this.context = change['context'].currentValue;
     }
+
+    if (change['graphicNovel'] != undefined) {
+      this.graphicNovel = change['graphicNovel'].currentValue;
+      if (this.graphicNovel.id === 0 || this.graphicNovel.id === undefined || this.graphicNovel.id === null){
+      } else {
+        this.initGraphicNovel();
+      }
+    }
+
   }
 
   /**
@@ -163,7 +193,10 @@ export class GraphicNovelItemComponent implements OnInit {
    */
   addToCollection(format: number) {
     this.libraryGraphicNovelsService.addToCollection(this.graphicNovel.id, format).subscribe(data => {
-      console.log(data);
+      this.inCollection = true;
+      let snackBarRef = this.snackBar.open(this.graphicNovel.title, "ajouté dans ma collection.", {
+        duration: 4000,
+      });
     });
   }
 

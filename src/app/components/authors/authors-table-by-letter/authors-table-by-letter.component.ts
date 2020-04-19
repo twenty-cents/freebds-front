@@ -49,7 +49,7 @@ export class AuthorsTableByLetterComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.authorsService.getAuthorsByLetter(this.letter, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active + ',' + this.sort.direction)
+          return this.authorsService.getAuthorsByLetter(this.context, this.letter, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active + ',' + this.sort.direction)
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -67,11 +67,16 @@ export class AuthorsTableByLetterComponent implements AfterViewInit {
   }
 
   ngOnChanges(change: SimpleChange) {
-    console.log(change);
-    let letter: string = change['letter'].currentValue;
-    if(letter != undefined && change['letter'].firstChange != true) {
-      this.letter = letter;
-      this.load();
+    if(change['context'] != undefined){
+      this.context = change['context'].currentValue;
+    }
+
+    if(change['letter'] != undefined) {
+      let letter: string = change['letter'].currentValue;
+      if(letter != undefined && change['letter'].firstChange != true) {
+        this.letter = letter;
+        this.load();
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router'
 
-import {MenuItem} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 
 import { BreadcrumbMainService } from '../../../services/commons/breadcrumb-main.service';
 import { SeriesService } from '../../../services/bds/series.service';
@@ -18,24 +19,39 @@ export class NavigateComponent implements OnInit {
   letterAuthor: string = 'A';
 
   constructor(
+    private route: ActivatedRoute,
     private breadcrumbMainService: BreadcrumbMainService,
     private serieService: SeriesService,
     private authorService: AuthorsService
   ) { }
 
   ngOnInit(): void {
-    // Init breacrumb
-    let item: MenuItem = {label: 'Encyclopédie', routerLink: ['referential/series-letters']};
-    this.breadcrumbMainService.initialize(item);
-    item = {label: 'Navigation libre', routerLink: ['referential/series-letters']};
-    this.breadcrumbMainService.add(item);
+    this.route.paramMap.subscribe(params => {
+      this.context = params.get('context');
+
+      if (this.context == 'referential') {
+        // Init breacrumb referential
+        let item: MenuItem = { label: 'Encyclopédie', routerLink: ['navigate', 'referential'] };
+        this.breadcrumbMainService.initialize(item);
+        item = { label: 'Navigation libre', routerLink: ['navigate', 'referential'] };
+        this.breadcrumbMainService.add(item);
+      } else {
+        // Init breacrumb collection
+        let item: MenuItem = { label: 'Ma Collection', routerLink: ['navigate', 'library'] };
+        this.breadcrumbMainService.initialize(item);
+        item = { label: 'Navigation libre', routerLink: ['navigate', 'library'] };
+        this.breadcrumbMainService.add(item);
+      }
+    });
+
+
   }
 
-  handleLetterBySerie(event, letter:string) {
+  handleLetterBySerie(event, letter: string) {
     this.letterSerie = letter;
   }
 
-  handleLetterByAuthor(event, letter:string) {
+  handleLetterByAuthor(event, letter: string) {
     this.letterAuthor = letter;
   }
 }

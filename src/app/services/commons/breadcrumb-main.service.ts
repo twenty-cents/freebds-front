@@ -24,8 +24,18 @@ export class BreadcrumbMainService {
   }
 
   add(item: MenuItem): void {
-    this.items.push(item);
-    this.breadcrumbSubject.next(this.items);
+    let found: boolean = false;
+    for(var i = this.items.length -1; i >= 0 ; i--) {
+
+      if(this.items[i].label == item.label) {
+        found = true;
+        break;
+      }
+    }
+    if(found === false){
+      this.items.push(item);
+      this.breadcrumbSubject.next(this.items);
+    }
   }
 
   select(item: MenuItem): void {
@@ -46,4 +56,9 @@ export class BreadcrumbMainService {
     }
   }
 
+  removeLast(): void {
+    this.items.pop();
+    this.breadcrumbSubject.next(this.items);
+  }
 }
+

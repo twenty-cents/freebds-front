@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router'
 
 import { DashboardService } from '../../../services/bds/dashboard.service';
 
@@ -14,9 +15,26 @@ export class DashboardComponent implements OnInit {
   countReferentialGraphicNovels: number = 0;
   countReferentialAuthors: number = 0;
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      //console.log('TOKEN=' + params.get('code'));
+      console.log(params);
+    });
+
+    this.route.paramMap.subscribe(params => {
+      //console.log('TOKEN=' + params.get('code'));
+      console.log(params);
+    });
+
+    this.route.params.subscribe(params => {
+      //console.log('TOKEN=' + params.get('code'));
+      console.log(params);
+    });
+
     // Count series in the referential db
     this.dashboardService.countReferentialSeries().subscribe(data => {
       this.countReferentialSeries = data;

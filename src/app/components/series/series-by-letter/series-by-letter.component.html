@@ -1,6 +1,7 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{resultsLength}} séries commençant par lettre {{ letter }}</mat-card-title>
+        <mat-card-title *ngIf="letter != ''">{{resultsLength}} série<span [style.display]="resultsLength > 1 ? 'inline' : 'none'">s</span> commençant par lettre {{ letter }} <span *ngIf="context == 'library'"> dans ma collection </span></mat-card-title>
+        <mat-card-title *ngIf="letter == ''">{{resultsLength}} série<span [style.display]="resultsLength > 1 ? 'inline' : 'none'">s</span> <span *ngIf="context == 'library'"> dans ma collection </span></mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -46,7 +47,7 @@
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef>Action</th>
                     <td mat-cell *matCellDef="let serie">
-                        <a [routerLink]="['/series', serie.id]"
+                        <a [routerLink]="['/series', serie.id, context]"
                             class="btn btn-info btn-sm">Afficher</a></td>
                 </ng-container>
 

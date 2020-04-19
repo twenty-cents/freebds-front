@@ -1,0 +1,49 @@
+<div class="col-md-12">
+    <div class="card card-container">
+      <form [formGroup]="loginForm" *ngIf="!isLoggedIn" (ngSubmit)="onSubmit()" >
+        <div class="form-group">
+
+          <mat-form-field>
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input matInput placeholder="Obligatoire" type="text" formControlName="username"
+             name="username" required />
+            <mat-error *ngIf="hasError('username', 'required')">Le nom d'utilisateur est obligatoire
+            </mat-error>
+          </mat-form-field>
+        <!--
+          <label for="username">Username</label>
+          <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required
+            #username="ngModel" />
+          <div class="alert alert-danger" role="alert" *ngIf="f.submitted && username.invalid">
+            Username is required!
+          </div>
+        -->
+        </div>
+        <div class="form-group">
+
+          <mat-form-field>
+            <mat-label>Mot de passe</mat-label>
+            <input matInput placeholder="Obligatoire" type="password" formControlName="password"
+             name="password" required min="6" />
+            <mat-error *ngIf="hasError('password', 'required')">Le mot de passe est obligatoire</mat-error>
+            <mat-error *ngIf="hasError('password', 'min')">Le mot de passe doit comporter au minimum 6 caractères</mat-error>
+          </mat-form-field>
+
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block" [disabled]="!loginForm.valid">
+            Se connecter
+          </button>
+        </div>
+        <div class="form-group">
+          <div class="alert alert-danger" role="alert" *ngIf="submitted && isLoginFailed">
+            L'authentification a échoué : {{ errorMessage }}
+          </div>
+        </div>
+      </form>
+  
+      <div class="alert alert-success" *ngIf="isLoggedIn">
+        Authentifié en tant que {{ roles }}.
+      </div>
+    </div>
+  </div>

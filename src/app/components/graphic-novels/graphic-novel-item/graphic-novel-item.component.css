@@ -33,3 +33,13 @@ dt, dd {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
+.inactive:hover {
+    background-color: #ffba01 !important;
+    cursor: default;
+    border-color: #ffba01 !important;
+}
+
+.no-border {
+    border: none;
+}

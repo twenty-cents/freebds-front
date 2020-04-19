@@ -6,9 +6,45 @@
 
     <!-- Top bar app -->
     <app-top-bar (sidebarLeftToggled)="handleToggleSidebarLeft()"></app-top-bar>
-
+    <!--
+    <nav class="navbar navbar-expand navbar-dark bg-dark" style="z-index: 10000;">
+        <a href="#" class="navbar-brand">FreeBds</a>
+        <ul class="navbar-nav mr-auto" routerLinkActive="active">
+          <li class="nav-item">
+            <a href="/home" class="nav-link" routerLink="home">Home </a>
+          </li>
+          <li class="nav-item" *ngIf="showAdminBoard">
+            <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
+          </li>
+          <li class="nav-item" *ngIf="showModeratorBoard">
+            <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
+          </li>
+          <li class="nav-item">
+            <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
+          </li>
+        </ul>
+    
+        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+          <li class="nav-item">
+            <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a href="/login" class="nav-link" routerLink="login">Login</a>
+          </li>
+        </ul>
+    
+        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+          <li class="nav-item">
+            <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
+          </li>
+          <li class="nav-item">
+            <a href class="nav-link" (click)="logout()">LogOut</a>
+          </li>
+        </ul>
+      </nav>
+-->
     <!-- Side menu left -->
-    <app-sidebar-left [toggle]="expanded"></app-sidebar-left>
+    <app-sidebar-left [style.display]="isLoggedIn ? 'block;' : 'none'" [toggle]="expanded"></app-sidebar-left>
 
     <!-- Main content -->
     <div class="container-fluid mt-5">
@@ -20,7 +56,7 @@
             <!-- Main content viewport -->
             <div class="col">
 
-                <app-breadcrumb-main></app-breadcrumb-main>
+                <app-breadcrumb-main [style.display]="isLoggedIn ? 'block;' : 'none'"></app-breadcrumb-main>
                 <div class="mb-3"></div>
 
                 <router-outlet></router-outlet>
@@ -29,50 +65,3 @@
         </div>
     </div>
 </div>
-
-<!--
-<p-table [columns]="cols" [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="10">
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-            <th *ngFor="let col of columns">
-                {{col.header}}
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
-            <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
-            </td>
-        </tr>
-    </ng-template>
-
-    <ng-template pTemplate="summary" let-rowData>
-        <div style="text-align:left">
-            <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Add"></button>
-        </div>
-    </ng-template>
-</p-table>
-
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [closable]="true" [style]="{'width':'300px'}">
-    <div class="ui-g ui-fluid" *ngIf="car">
-        <div class="ui-g-4"><label for="vin">Vin</label></div>
-        <div class="ui-g-8"><input pInputText id="vin" [(ngModel)]="car.vin" /></div>
-        
-        <div class="ui-g-4"><label for="year">Year</label></div>
-        <div class="ui-g-8"><input pInputText id="year" [(ngModel)]="car.year" /></div>
-        
-        <div class="ui-g-4"><label for="brand">Brand</label></div>
-        <div class="ui-g-8"><input pInputText id="brand" [(ngModel)]="car.brand" /></div>
-        
-        <div class="ui-g-4"><label for="color">Color</label></div>
-        <div class="ui-g-8"><input pInputText id="color" [(ngModel)]="car.color" /></div>
-    </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
-        </div>
-    </p-footer>
-</p-dialog>
--->

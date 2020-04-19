@@ -46,7 +46,7 @@
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef>Action</th>
                     <td mat-cell *matCellDef="let serie">
-                        <a [routerLink]="['/series', serie.id]"
+                        <a [routerLink]="['/series', serie.id, context]"
                             class="btn btn-info btn-sm">Afficher</a></td>
                 </ng-container>
 
