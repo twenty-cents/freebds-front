@@ -17,6 +17,7 @@ export class NavigateComponent implements OnInit {
   context: string = 'referential';
   letterSerie: string = 'A';
   letterAuthor: string = 'A';
+  letters: string[] = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +38,7 @@ export class NavigateComponent implements OnInit {
         this.breadcrumbMainService.add(item);
       } else {
         // Init breacrumb collection
-        let item: MenuItem = { label: 'Ma Collection', routerLink: ['navigate', 'library'] };
+        let item: MenuItem = { label: 'Ma Collection', routerLink: ['navigate', 'library']};
         this.breadcrumbMainService.initialize(item);
         item = { label: 'Navigation libre', routerLink: ['navigate', 'library'] };
         this.breadcrumbMainService.add(item);

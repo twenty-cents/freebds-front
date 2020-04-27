@@ -1,36 +1,13 @@
-<mat-tab-group dynamicHeight mat-stretch-tabs class="mat-elevation-z6">
+<mat-tab-group dynamicHeight mat-stretch-tabs class="mat-elevation-z6 bg-white">
     <mat-tab label="Séries">
       <div class="container-fluid no-gutters p-0 m-0">
 
-        <div class="d-flex justify-content-center p-2">
-            <button pButton type="button" label="Tout" class="ui-button-raised ui-button-success mr-2" (click)="handleLetterBySerie($event, '')"></button>
-            <button pButton type="button" label="#" class="ui-button-raised" (click)="handleLetterBySerie($event, '0')"></button>
-            <button pButton type="button" label="A" class="ui-button-raised" (click)="handleLetterBySerie($event, 'A')"></button>
-            <button pButton type="button" label="B" class="ui-button-raised" (click)="handleLetterBySerie($event, 'B')"></button>
-            <button pButton type="button" label="C" class="ui-button-raised" (click)="handleLetterBySerie($event, 'C')"></button>
-            <button pButton type="button" label="D" class="ui-button-raised" (click)="handleLetterBySerie($event, 'D')"></button>
-            <button pButton type="button" label="E" class="ui-button-raised" (click)="handleLetterBySerie($event, 'E')"></button>
-            <button pButton type="button" label="F" class="ui-button-raised" (click)="handleLetterBySerie($event, 'F')"></button>
-            <button pButton type="button" label="G" class="ui-button-raised" (click)="handleLetterBySerie($event, 'G')"></button>
-            <button pButton type="button" label="H" class="ui-button-raised" (click)="handleLetterBySerie($event, 'H')"></button>
-            <button pButton type="button" label="I" class="ui-button-raised" (click)="handleLetterBySerie($event, 'I')"></button>
-            <button pButton type="button" label="J" class="ui-button-raised" (click)="handleLetterBySerie($event, 'J')"></button>
-            <button pButton type="button" label="K" class="ui-button-raised" (click)="handleLetterBySerie($event, 'K')"></button>
-            <button pButton type="button" label="L" class="ui-button-raised" (click)="handleLetterBySerie($event, 'L')"></button>
-            <button pButton type="button" label="M" class="ui-button-raised" (click)="handleLetterBySerie($event, 'M')"></button>
-            <button pButton type="button" label="N" class="ui-button-raised" (click)="handleLetterBySerie($event, 'N')"></button>
-            <button pButton type="button" label="O" class="ui-button-raised" (click)="handleLetterBySerie($event, 'O')"></button>
-            <button pButton type="button" label="P" class="ui-button-raised" (click)="handleLetterBySerie($event, 'P')"></button>
-            <button pButton type="button" label="Q" class="ui-button-raised" (click)="handleLetterBySerie($event, 'Q')"></button>
-            <button pButton type="button" label="R" class="ui-button-raised" (click)="handleLetterBySerie($event, 'R')"></button>
-            <button pButton type="button" label="S" class="ui-button-raised" (click)="handleLetterBySerie($event, 'S')"></button>
-            <button pButton type="button" label="T" class="ui-button-raised" (click)="handleLetterBySerie($event, 'T')"></button>
-            <button pButton type="button" label="U" class="ui-button-raised" (click)="handleLetterBySerie($event, 'U')"></button>
-            <button pButton type="button" label="V" class="ui-button-raised" (click)="handleLetterBySerie($event, 'V')"></button>
-            <button pButton type="button" label="W" class="ui-button-raised" (click)="handleLetterBySerie($event, 'W')"></button>
-            <button pButton type="button" label="X" class="ui-button-raised" (click)="handleLetterBySerie($event, 'X')"></button>
-            <button pButton type="button" label="Y" class="ui-button-raised" (click)="handleLetterBySerie($event, 'Y')"></button>
-            <button pButton type="button" label="Z" class="ui-button-raised" (click)="handleLetterBySerie($event, 'Z')"></button>
+        <div class="d-flex flex-wrap justify-content-center p-2">
+          <!-- <div class="d-flex justify-content-center p-2"> -->
+            <button pButton type="button" label="Tout" [ngClass]="letterSerie === '' ? 'ui-button-success' : 'ui-button-primary'" class="ui-button-raised mr-2" (click)="handleLetterBySerie($event, '')"></button>
+            <span *ngFor="let letter of letters">
+              <button pButton type="button" label="{{letter}}" [ngClass]="letterSerie === letter ? 'ui-button-success' : 'ui-button-primary'" class="ui-button-raised" (click)="handleLetterBySerie($event, letter)"></button>
+            </span>
         </div>
 
         <div class="col-md-12 no-gutters p-0 m-0">
@@ -43,35 +20,12 @@
 
         <div class="container-fluid no-gutters p-0 m-0">
 
-            <div class="d-flex justify-content-center p-2">
-                <button pButton type="button" label="Tout" class="ui-button-raised ui-button-success mr-2" (click)="handleLetterByAuthor($event, '')"></button>
-                <button pButton type="button" label="#" class="ui-button-raised" (click)="handleLetterByAuthor($event, '0')"></button>
-                <button pButton type="button" label="A" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'A')"></button>
-                <button pButton type="button" label="B" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'B')"></button>
-                <button pButton type="button" label="C" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'C')"></button>
-                <button pButton type="button" label="D" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'D')"></button>
-                <button pButton type="button" label="E" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'E')"></button>
-                <button pButton type="button" label="F" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'F')"></button>
-                <button pButton type="button" label="G" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'G')"></button>
-                <button pButton type="button" label="H" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'H')"></button>
-                <button pButton type="button" label="I" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'I')"></button>
-                <button pButton type="button" label="J" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'J')"></button>
-                <button pButton type="button" label="K" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'K')"></button>
-                <button pButton type="button" label="L" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'L')"></button>
-                <button pButton type="button" label="M" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'M')"></button>
-                <button pButton type="button" label="N" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'N')"></button>
-                <button pButton type="button" label="O" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'O')"></button>
-                <button pButton type="button" label="P" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'P')"></button>
-                <button pButton type="button" label="Q" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'Q')"></button>
-                <button pButton type="button" label="R" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'R')"></button>
-                <button pButton type="button" label="S" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'S')"></button>
-                <button pButton type="button" label="T" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'T')"></button>
-                <button pButton type="button" label="U" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'U')"></button>
-                <button pButton type="button" label="V" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'V')"></button>
-                <button pButton type="button" label="W" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'W')"></button>
-                <button pButton type="button" label="X" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'X')"></button>
-                <button pButton type="button" label="Y" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'Y')"></button>
-                <button pButton type="button" label="Z" class="ui-button-raised" (click)="handleLetterByAuthor($event, 'Z')"></button>
+            <div class="d-flex flex-wrap justify-content-center p-2">
+              <button pButton type="button" label="Tout" [ngClass]="letterAuthor === '' ? 'ui-button-success' : 'ui-button-primary'" class="ui-button-raised mr-2" (click)="handleLetterByAuthor($event, '')"></button>
+              <span *ngFor="let letter of letters">
+                <button pButton type="button" label="{{letter}}" [ngClass]="letterAuthor === letter ? 'ui-button-success' : 'ui-button-primary'" class="ui-button-raised" (click)="handleLetterByAuthor($event, letter)"></button>
+              </span>
+
             </div>
 
             <div class="col-md-12 no-gutters p-0 m-0">
@@ -82,4 +36,3 @@
 
     </mat-tab>
   </mat-tab-group>
-

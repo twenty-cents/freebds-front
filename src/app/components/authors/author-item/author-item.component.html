@@ -72,7 +72,7 @@
             <td>{{ serie.role }}</td>
             <td>{{ serie.publicationDateFrom.substring(0, 4) }}</td>
             <td>{{ serie.publicationDateTo.substring(0, 4) }}</td>
-            <td><a [routerLink]="['/series', serie.id]" class="btn btn-info btn-sm">Afficher</a></td>
+            <td><a [routerLink]="['/series', serie.id, context]" class="btn btn-info btn-sm">Afficher</a></td>
         </tr>
     </tbody>
 </table>

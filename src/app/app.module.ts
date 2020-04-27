@@ -56,6 +56,7 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import {SidebarModule} from 'primeng/sidebar';
+import {MenuModule} from 'primeng/menu';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {PanelModule} from 'primeng/panel';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
@@ -63,6 +64,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {LightboxModule} from 'primeng/lightbox';
 import {MessageModule} from 'primeng/message';
 import {RatingModule} from 'primeng/rating';
+import {TooltipModule} from 'primeng/tooltip';
 
 // FreeBds
 // - Common components
@@ -100,6 +102,14 @@ import { GraphicsNovelsListXsComponent } from './components/graphic-novels/graph
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/security/profile/profile.component';
 import { RegisterComponent } from './components/security/register/register.component';
+import { GraphicNovelsListXsRefComponent } from './components/graphic-novels/graphic-novels-list-xs-ref/graphic-novels-list-xs-ref.component';
+import { GraphicNovelItemDialogComponent } from './components/graphic-novels/graphic-novel-item-dialog/graphic-novel-item-dialog.component';
+import { GraphicNovelsListMComponent } from './components/graphic-novels/graphic-novels-list-m/graphic-novels-list-m.component';
+import { SerieItemXsComponent } from './components/series/serie-item-xs/serie-item-xs.component';
+import { AuthorItemXsComponent } from './components/authors/author-item-xs/author-item-xs.component';
+import { GraphicNovelItemXsComponent } from './components/graphic-novels/graphic-novel-item-xs/graphic-novel-item-xs.component';
+import { MyProfileComponent } from './components/security/my-profile/my-profile.component';
+import { MyPasswordComponent } from './components/security/my-password/my-password.component';
 
 
 
@@ -135,7 +145,15 @@ import { RegisterComponent } from './components/security/register/register.compo
         LoginComponent,
         HomeComponent,
         ProfileComponent,
-        RegisterComponent
+        RegisterComponent,
+        GraphicNovelsListXsRefComponent,
+        GraphicNovelItemDialogComponent,
+        GraphicNovelsListMComponent,
+        SerieItemXsComponent,
+        AuthorItemXsComponent,
+        GraphicNovelItemXsComponent,
+        MyProfileComponent,
+        MyPasswordComponent
     ],
     imports: [
         BrowserModule,
@@ -195,6 +213,7 @@ import { RegisterComponent } from './components/security/register/register.compo
         InputTextModule,
         DialogModule,
         SidebarModule,
+        MenuModule,
         ButtonModule,
         PanelMenuModule,
         PanelModule,
@@ -202,7 +221,8 @@ import { RegisterComponent } from './components/security/register/register.compo
         SplitButtonModule,
         LightboxModule,
         MessageModule,
-        RatingModule
+        RatingModule,
+        TooltipModule
     ],
     providers: [
         ResizeService,

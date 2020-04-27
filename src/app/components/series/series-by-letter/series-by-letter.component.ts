@@ -9,6 +9,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SeriesService } from '../../../services/bds/series.service';
 import { SeriesListPager } from '../../../models/bds/series/series-list-pager';
 import { Serie } from '../../../models/bds/series/serie';
+import { ResizeService } from '../../../services/commons/resize.service';
 
 @Component({
   selector: 'app-series-by-letter',
@@ -25,17 +26,39 @@ export class SeriesByLetterComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'title', 'categories', 'status', 'origin', 'action'];
+  displayedColumns: string[];
   resultsLength = 0;
-  pageSize: number = 500;
+  pageSize: number = 100;
   isLoadingResults = true;
 
   serieToDisplay: Serie;
   series: Serie[] = [];
 
   constructor(
-    private seriesService: SeriesService
-  ) { }
+    private seriesService: SeriesService,
+    private resizeService: ResizeService
+  ) {
+    // Set table size
+    this.initDisplayColumns(this.resizeService.currentSize);
+    // Subscribe for next screen size changes
+    this.resizeService.onResize$.subscribe(size => {
+      this.initDisplayColumns(size);
+    });
+   }
+
+   initDisplayColumns(size: number): void {
+    if(size < 2 ) {
+      this.displayedColumns = ['xs-view'];
+    } 
+    
+    if(size == 2 ) {
+      this.displayedColumns = ['md-view'];
+    }
+
+    if(size > 2 ) {
+      this.displayedColumns = ['id', 'title', 'categories', 'status', 'origin', 'action'];
+    }
+   }
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
@@ -70,6 +93,8 @@ export class SeriesByLetterComponent implements AfterViewInit {
   ngOnChanges(change: SimpleChange) {
     if(change['context'] != undefined){
       this.context = change['context'].currentValue;
+      //this.letter = 'A';
+      //this.load();
     }
 
     if(change['letter'] != undefined) {
@@ -82,5 +107,13 @@ export class SeriesByLetterComponent implements AfterViewInit {
 
   }
 
+  handleChangeListeView(view: string): void {
+    if(view == 'list')
+      this.initDisplayColumns(1);
+    if(view == 'card')
+      this.initDisplayColumns(2);
+    if(view == 'table')
+      this.initDisplayColumns(3);
+  }
 
 }

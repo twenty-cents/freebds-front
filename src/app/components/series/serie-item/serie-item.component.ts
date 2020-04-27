@@ -45,7 +45,7 @@ export class SerieItemComponent implements OnInit {
       this.context = params.get('context');
 
       // Load the serie
-      this.seriesService.getSerieById(+params.get('serie.id')).subscribe(serie => {
+      this.seriesService.getSerieById(this.context, +params.get('serie.id')).subscribe(serie => {
         this.serie = serie;
 
         // Init breacrumb

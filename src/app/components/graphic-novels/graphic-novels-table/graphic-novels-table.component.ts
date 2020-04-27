@@ -13,7 +13,7 @@ import { BreadcrumbMainService } from '../../../services/commons/breadcrumb-main
 import { FreeSearchService } from '../../../services/freeSearch/free-search.service';
 import { FreeSearchFilters } from '../../../models/bds/free-search/free-search-filters';
 import { GraphicNovel } from '../../../models/bds/graphic-novels/graphic-novel';
-
+import { ResizeService } from '../../../services/commons/resize.service';
 @Component({
   selector: 'app-graphic-novels-table',
   templateUrl: './graphic-novels-table.component.html',
@@ -23,7 +23,7 @@ export class GraphicNovelsTableComponent implements AfterViewInit {
 
   @Input() context: string;
 
-  displayedColumns: string[] = ['id', 'tome', 'serie', 'title', 'publisher', 'publicationDate', 'action'];
+  displayedColumns: string[];
   resultsLength = 0;
   pageSize: number = 100;
   isLoadingResults = true;
@@ -39,8 +39,29 @@ export class GraphicNovelsTableComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private freeSearchService: FreeSearchService,
     private breadcrumbMainService: BreadcrumbMainService,
+    private resizeService: ResizeService
   ) {
+    // Set table size
+    this.initDisplayColumns(this.resizeService.currentSize);
+    // Subscribe for next screen size changes
+    this.resizeService.onResize$.subscribe(size => {
+      this.initDisplayColumns(size);
+    });
   }
+
+  initDisplayColumns(size: number): void {
+    if(size < 2 ) {
+      this.displayedColumns = ['xs-view'];
+    } 
+    
+    if(size == 2 ) {
+      this.displayedColumns = ['md-view'];
+    }
+
+    if(size > 2 ) {
+      this.displayedColumns = ['id', 'tome', 'serie', 'title', 'publisher', 'publicationDate', 'action'];
+    }
+   }
 
   ngAfterViewInit() {
     this.route.paramMap.subscribe(params => {
@@ -89,6 +110,15 @@ export class GraphicNovelsTableComponent implements AfterViewInit {
       this.context = change['context'].currentValue;
     }
     this.loadTable();
+  }
+
+  handleChangeListeView(view: string): void {
+    if(view == 'list')
+      this.initDisplayColumns(1);
+    if(view == 'card')
+      this.initDisplayColumns(2);
+    if(view == 'table')
+      this.initDisplayColumns(3);
   }
 
 }

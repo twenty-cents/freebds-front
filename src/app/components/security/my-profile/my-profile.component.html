@@ -1,0 +1,71 @@
+<!-- User card -->
+<div class="d-flex justify-content-center">
+
+    <mat-card class="mat-elevation-z6 mb-2" style="max-width: 500px;">
+        <mat-card-header class="pt-2">
+            <mat-card-title>Mon profil utilisateur</mat-card-title>
+            <mat-card-subtitle>Modifier mon profil utilisateur</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <form [formGroup]="userForm" (ngSubmit)="saveUser(userForm.value)">
+
+                <div class="row mt-3">
+                    <div class="form-group input-group-sm col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img [src]="avatar" class="card-img p-1" alt="..." style="max-width: 200px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Nom d'utilisateur</mat-label>
+                            <mat-hint>Le nom d'utilisateur doit être libre.</mat-hint>
+                            <input matInput type="text" formControlName="username" name="username">
+                            <mat-error *ngIf="hasError('username', 'invalid')">Le nom d'utilisateur doit être libre.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <mat-hint>L'adresse email doit être libre.</mat-hint>
+                            <input matInput type="email" formControlName="email" name="email">
+                            <mat-error *ngIf="hasError('email', 'invalid')">L'adresse email doit être libre.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group input-group-sm col-md-12">
+                        <mat-form-field>
+                            <mat-label>Avatar</mat-label>
+                            <mat-hint>Saisir l'url de l'image de votre avatar.</mat-hint>
+                            <input matInput type="text" formControlName="avatar" name="avatar" #inputAvatar (blur)="updateAvatar(inputAvatar)">
+                            <mat-error *ngIf="hasError('avatar', 'invalid')">Veuillez saisir au mininum 3 caractères
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="form-group input-group-sm col-md-12 mt-2">
+                        <!-- Validate form -->
+                        <div class="d-flex justify-content-between col-md-12">
+                            <button type="submit" class="btn btn-danger btn-sm" style="width: 90px;">Annuler</button>
+
+                            <button type="submit" class="btn btn-success btn-sm"
+                                style="width: 90px;">Enregistrer</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+
+
+        </mat-card-content>
+    </mat-card>
+
+</div>

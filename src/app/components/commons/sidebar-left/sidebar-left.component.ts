@@ -24,6 +24,7 @@ export class SidebarLeftComponent implements OnInit {
   screenSize;
 
   items: MenuItem[];
+  items2: MenuItem[];
 
   constructor(private resizeSvc: ResizeService) { 
     this.resizeSvc.onResize$
@@ -39,6 +40,33 @@ export class SidebarLeftComponent implements OnInit {
   }
 
   ngOnInit(): void {
+        // Init Menu
+        this.items2 = [
+          {
+            label: 'Accueil',
+            items:[{
+              label: 'Tableau de bord',
+              icon: 'pi pi-home',
+              routerLink: ['dashboard']
+          }]
+          },
+          {
+              label: 'Encyclopédie Bds',
+              items: [
+                {label: 'Navigation libre', icon: 'pi pi-cloud', routerLink: ['navigate', 'referential']},
+                {label: 'Recherche', icon: 'pi pi-search', routerLink: ['free-search', 'referential']}
+              ]
+          },
+          {
+              label: 'Ma collection',
+              icon: 'pi pi-fw pi-question',
+              items: [
+                {label: 'Navigation libre', icon: 'pi pi-images', routerLink: ['navigate', 'library']},
+                {label: 'Recherche', icon: 'pi pi-search', routerLink: ['free-search', 'library']}
+              ]
+          }
+      ];
+
     // Init Menu
     this.items = [
       {

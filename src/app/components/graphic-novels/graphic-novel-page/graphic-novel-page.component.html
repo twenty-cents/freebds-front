@@ -1,12 +1,14 @@
-<mat-card class="mat-elevation-z6" style="max-width: 700px;">
-    <mat-card-header>
+<mat-card class="mat-elevation-z6">
+    <mat-card-header class="bg-dark text-white pt-2">
         <mat-card-title>{{ graphicNovel.serie.title }}</mat-card-title>
+
+        <mat-card-subtitle class="bg-dark text-white">
+            {{ graphicNovel.serie.categories }} | {{ graphicNovel.serie.langage }} | {{ graphicNovel.serie.origin }} |
+            {{ graphicNovel.serie.status }}
+        </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-subtitle>
-        {{ graphicNovel.serie.categories }} | {{ graphicNovel.serie.langage }} | {{ graphicNovel.serie.origin }} | {{ graphicNovel.serie.status }}
-    </mat-card-subtitle>
 
     <mat-card-content>
-        <app-graphic-novel-item [(graphicNovel)]="graphicNovel"></app-graphic-novel-item>
+        <app-graphic-novel-item [(graphicNovel)]="graphicNovel" [context]="context"></app-graphic-novel-item>
     </mat-card-content>
 </mat-card>

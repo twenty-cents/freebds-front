@@ -1,27 +1,46 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <!-- Menu Button for small views -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAppTopBar"
         aria-controls="navbarAppTopBar" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" (click)="handleToggleSidebarLeft($event)"></span>
+        <span class="navbar-toggler-icon" [style.display]="isLoggedIn ? 'block;' : 'none'" (click)="handleToggleSidebarLeft($event)"></span>
     </button>
+    <!-- Menu Button for large views -->
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">FreeBds</a>
+      <span [style.display]="isLoggedIn ? 'block;' : 'none'" class="navbar-toggler-icon" (click)="handleToggleSidebarLeft($event)"></span>
+        <!-- Application title -->
+        <a class="navbar-brand ml-2" href="#">FreeBds</a>
 
         <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
             <li class="nav-item">
-              <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+              <a href="/register" class="nav-link" routerLink="register">S'inscrire</a>
             </li>
             <li class="nav-item">
-              <a href="/login" class="nav-link" routerLink="login">Login</a>
+              <a href="/login" class="nav-link" routerLink="login">Se connecter</a>
             </li>
           </ul>
 
         <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+
             <li class="nav-item">
-              <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
+<!--          <a href="/profile" class="nav-link" routerLink="profile" (click)="menu.toggle($event)">{{ username }}</a> -->
+              <a class="nav-link mr-2" (click)="menu.toggle($event)">{{ username }}</a>
             </li>
+
             <li class="nav-item">
-              <a href class="nav-link" (click)="logout()">LogOut</a>
+              <img [src]="avatar" style="padding-top:3px; width: 42px; height: 42px; border-radius: 21px;" />
+          </li>
+<!--
+            <li class="nav-item">
+              <a href class="nav-link" (click)="logout()" pTooltip="Déconnexion" tooltipPosition="bottom"><mat-icon aria-hidden="false" aria-label="Déconnexion">exit_to_app</mat-icon></a>
             </li>
+-->
           </ul>
     </div>
 </nav>
+
+<p-sidebar [(visible)]="display" [showCloseIcon]="true" modal="true" (onShow)="show()" (onHide)="hide()">
+    <h1 style="font-weight:normal;color: white;width:100%;">FreeBds</h1>
+    <p-menu [model]="items" [style]="{'width':'100%'}"></p-menu>
+</p-sidebar>
+
+<p-menu #menu [popup]="true" [model]="menuProfileItems"></p-menu>

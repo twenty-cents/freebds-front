@@ -1,0 +1,49 @@
+<mat-card class="mat-elevation-z0 mb-2 p-0">
+
+    <mat-card-content>
+        <div class="card mb-3 no-border">
+
+            <div class="row no-gutters">
+
+                <div class="col-md-10">
+
+                    <mat-card-header class="bg-dark text-white pt-2">
+                        <mat-card-title>{{ graphicNovel.tome + graphicNovel.numEdition + '. ' + graphicNovel.title }}
+                            <span *ngIf="graphicNovel.publicationDate !== null"> ({{ graphicNovel.publicationDate.substring(0, 4) }})</span>
+                        </mat-card-title>
+                        <mat-card-subtitle class="text-light">{{ graphicNovel.serie.categories }} | {{ graphicNovel.serie.langage }} | {{ graphicNovel.serie.origin }}
+                            | {{ graphicNovel.serie.status }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <div class="card-body bg-white">
+
+                        <dl class="dl-horizontal">
+                            <div *ngFor="let author of authors">
+                                <dt>{{author.role}}</dt>
+                                <dd><a [routerLink]="['/authors', author.id, context]">{{author.name}}</a></dd>
+                            </div>
+                        </dl>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2" >
+
+                    <div class="row no-gutters">
+                        <div class="col-md-12">
+ <!--                       <img [src]="serie.pageThumbnailUrl" class="card-img p-1" alt="..."> -->
+                            <p-lightbox [images]="graphicNovelCover" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
+                    </div>
+
+                </div>
+
+                <a [routerLink]="['/graphic-novels', graphicNovel.id, context]"
+                class="btn btn-info btn-sm mt-2 mb-2">Afficher</a>
+
+            </div>
+
+        </div>
+
+    </mat-card-content>
+</mat-card>

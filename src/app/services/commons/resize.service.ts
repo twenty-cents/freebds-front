@@ -6,6 +6,8 @@ import { SCREEN_SIZE } from '../../models/commons/screen-size.enum';
 @Injectable()
 export class ResizeService {
 
+  currentSize: number;
+
   get onResize$(): Observable<SCREEN_SIZE> {
     return this.resizeSubject.asObservable().pipe(distinctUntilChanged());
   }
@@ -17,6 +19,7 @@ export class ResizeService {
   }
 
   onResize(size: SCREEN_SIZE) {
+    this.currentSize = size;
     this.resizeSubject.next(size);
   }
 

@@ -1,7 +1,30 @@
 <mat-card class="mat-elevation-z6">
-    <mat-card-header>
-        <mat-card-title>{{resultsLength}} album(s) trouvé(s)</mat-card-title>
-    </mat-card-header>
+
+    <!-- Header Graphic novels & vue control buttons -->
+    <div class="d-flex flex-fill justify-content-between align-items-end alert alert-dark pl-3">
+        <mat-card-title>
+            <h5>{{resultsLength}} album<span [style.display]="resultsLength > 1 ? 'inline' : 'none'">s</span></h5>
+        </mat-card-title>
+
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+            <mat-button-toggle value="list" pTooltip="Liste simple" tooltipPosition="bottom"
+                (click)="handleChangeListeView(group.value)">
+                <mat-icon>
+                    format_align_left</mat-icon>
+            </mat-button-toggle>
+
+            <mat-button-toggle value="card" pTooltip="Liste détaillée" tooltipPosition="bottom"
+                (click)="handleChangeListeView(group.value)">
+                <mat-icon>format_indent_increase</mat-icon>
+            </mat-button-toggle>
+            
+            <mat-button-toggle value="table" pTooltip="Table complète" tooltipPosition="bottom"
+                (click)="handleChangeListeView(group.value)" class="list-group-buttons">
+                <mat-icon>format_align_justify</mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+
+    </div>
 
     <mat-card-content>
         <div class="example-loading-shade" *ngIf="isLoadingResults">
@@ -53,6 +76,33 @@
                     <th mat-header-cell *matHeaderCellDef>Action</th>
                     <td mat-cell *matCellDef="let gc">
                         <a [routerLink]="['/graphic-novels', gc.id, context]" class="btn btn-info btn-sm">Afficher</a></td>
+                </ng-container>
+
+                <!-- XS-View Column -->
+                <ng-container matColumnDef="xs-view">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let gc">
+                        <div class="mt-2">
+                            <b>
+                                <span style="color: darkgray;">{{gc.id}} - </span>{{gc.tome}} {{ gc.numEdition }} - {{ gc.title }} 
+                            </b>
+                            <span *ngIf="gc.publicationDate !== null"> ({{ gc.publicationDate.substring(0, 4) }})</span>
+                        </div>
+                        <div>{{ gc.serie.title  }}</div>
+                        <div><i>{{ gc.serie.categories  }}</i></div>
+                        <a [routerLink]="['/graphic-novels', gc.id, context]"
+                            class="btn btn-info btn-sm mt-2 mb-2">Afficher</a>
+
+                    </td>
+                </ng-container>
+
+                <!-- MD-View Column -->
+                <ng-container matColumnDef="md-view">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let gc" style="padding:0px;">
+                        <app-graphic-novel-item-xs [graphicNovel]="gc" [context]="context">
+                        </app-graphic-novel-item-xs>
+                    </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

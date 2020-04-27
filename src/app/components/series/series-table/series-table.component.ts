@@ -14,7 +14,7 @@ import { FreeSearchService } from '../../../services/freeSearch/free-search.serv
 import { FreeSearchFilters } from '../../../models/bds/free-search/free-search-filters';
 import { SeriesListPager } from '../../../models/bds/series/series-list-pager';
 import { Serie } from '../../../models/bds/series/serie';
-
+import { ResizeService } from '../../../services/commons/resize.service';
 
 @Component({
   selector: 'app-series-table',
@@ -25,7 +25,7 @@ export class SeriesTableComponent implements AfterViewInit {
 
   @Input() context: string;
 
-  displayedColumns: string[] = ['id', 'title', 'categories', 'status', 'origin', 'action'];
+  displayedColumns: string[];
   resultsLength = 0;
   pageSize: number = 100;
   isLoadingResults = true;
@@ -42,8 +42,29 @@ export class SeriesTableComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private freeSearchService: FreeSearchService,
     private breadcrumbMainService: BreadcrumbMainService,
+    private resizeService: ResizeService
   ) {
-  }
+    // Set table size
+    this.initDisplayColumns(this.resizeService.currentSize);
+    // Subscribe for next screen size changes
+    this.resizeService.onResize$.subscribe(size => {
+      this.initDisplayColumns(size);
+    });
+}
+
+  initDisplayColumns(size: number): void {
+    if(size < 2 ) {
+      this.displayedColumns = ['xs-view'];
+    } 
+    
+    if(size == 2 ) {
+      this.displayedColumns = ['md-view'];
+    }
+
+    if(size > 2 ) {
+      this.displayedColumns = ['id', 'title', 'categories', 'status', 'origin', 'action'];
+    }
+   }
 
   ngAfterViewInit() {
     this.route.paramMap.subscribe(params => {
@@ -94,5 +115,13 @@ export class SeriesTableComponent implements AfterViewInit {
     this.loadSeries();
   }
 
+  handleChangeListeView(view: string): void {
+    if(view == 'list')
+      this.initDisplayColumns(1);
+    if(view == 'card')
+      this.initDisplayColumns(2);
+    if(view == 'table')
+      this.initDisplayColumns(3);
+  }
 
 }

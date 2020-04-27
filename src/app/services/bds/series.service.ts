@@ -12,6 +12,7 @@ import { SeriesListPager } from   '../../models/bds/series/series-list-pager';
 import { Serie } from             '../../models/bds/series/serie';
 import { FreeSearchFilters } from '../../models/bds/free-search/free-search-filters';
 import { AuthorRoleBySerie } from '../../models/bds/authors/author-role-by-serie';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +46,12 @@ export class SeriesService {
     return this.http.get<Languages>('http://localhost:8080/api/series/languages');
   }
 
-  public getSerieById(id: number): Observable<Serie> {
-    return this.http.get<Serie>('http://localhost:8080/api/series/' + id);
+  public getSerieById(context: string, id: number): Observable<Serie> {
+    const params = new HttpParams()
+    .set('context', context)
+    .set('libraryId', this.librariesService.getCurrentId().toString())
+    .set('serieId', id.toString())
+    return this.http.get<Serie>('http://localhost:8080/api/series/' + id, {params});
   }
 
   public getSeriesByLetter(context: string, letter: string, page: number, size: number, sort: string) :Observable<SeriesListPager> {
@@ -58,10 +63,13 @@ export class SeriesService {
     .set('page', page.toString())
     .set('size', size.toString())
     .set('sort', sort);
-    return this.http.get<SeriesListPager>('http://localhost:8080/api/series/letter', {params});
+    return this.http.get<SeriesListPager>(environment.rootApi + 'series/letter', {params});
   }
 
-  public getAuthorRolesBySeries(id: number): Observable<AuthorRoleBySerie[]> {
-    return this.http.get<AuthorRoleBySerie[]>('http://localhost:8080/api/series/authors/' + id);
+  public getAuthorRolesBySeries(context: string, authorId: number): Observable<AuthorRoleBySerie[]> {
+    const params = new HttpParams()
+    .set('context', context)
+    .set('libraryId', this.librariesService.getCurrentId().toString())
+    return this.http.get<AuthorRoleBySerie[]>('http://localhost:8080/api/series/authors/' + authorId, {params});
   }
 }

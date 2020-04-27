@@ -1,0 +1,37 @@
+<mat-card class="mat-elevation-z6 mb-2 pl-0 pr-0">
+
+
+    <mat-card-content class="p-0">
+
+        <!-- Material table -->
+        <table mat-table [dataSource]="graphicNovels" multiTemplateDataRows class="gc-table no-border p-0" style="width: 100%;">
+
+            <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef class="gc-card-borders" id="top-gc">
+                    <!-- {{column}} -->
+                    <mat-card-header class="bg-dark text-white pt-2">
+                        <mat-card-title>Détail des albums de la série</mat-card-title>
+                        <mat-card-subtitle *ngIf="resultsLength > 1" class="text-light">{{ resultsLength + " albums référencés"}}</mat-card-subtitle>
+                        <mat-card-subtitle *ngIf="resultsLength == 1" class="text-light">{{ resultsLength + " album référencé"}}</mat-card-subtitle>
+                    </mat-card-header>
+                </th>
+            </ng-container>
+
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="gc-card-borders">
+
+                    <app-graphic-novel-item [(serie)]="serie" [graphicNovel]="element" [context]="context">
+                    </app-graphic-novel-item>
+                    <div style="width: 100%;height: 1px; background-color: teal;"></div>
+
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+        <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
+    </mat-card-content>
+
+</mat-card>

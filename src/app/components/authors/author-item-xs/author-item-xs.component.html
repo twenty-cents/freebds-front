@@ -1,0 +1,46 @@
+<mat-card class="mat-elevation-z0 mb-2 p-0">
+
+    <mat-card-content>
+        <div class="card mb-3 no-border">
+
+            <div class="row no-gutters">
+
+                <div class="col-md-10">
+
+                    <mat-card-header class="bg-dark text-white pt-2">
+                        <mat-card-title>
+                            <b>
+                                {{author.lastname}} 
+                                <span *ngIf="author.firstname">, {{ author.firstname }}</span> 
+                                <span *ngIf="author.nickname"> ({{ author.nickname}})</span>
+                            </b>
+                        </mat-card-title>
+                        <mat-card-subtitle class="text-light">{{ author.nationality}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <div class="card-body bg-white">
+                        <h5 *ngIf="author.biography" class="mt-1 mb-2">Biographie</h5>
+                        <div *ngIf="author.biography" class="mt-1 ml-1">{{ author.biography }}</div>
+                        <a [routerLink]="['/authors', author.id, context]" class="btn btn-info btn-sm mt-3 mb-2">Afficher</a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-2" >
+
+                    <div class="row no-gutters">
+                        <div class="col-md-12">
+ <!--                       <img [src]="serie.pageThumbnailUrl" class="card-img p-1" alt="..."> -->
+                            <p-lightbox [images]="authorPhoto" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </mat-card-content>
+</mat-card>

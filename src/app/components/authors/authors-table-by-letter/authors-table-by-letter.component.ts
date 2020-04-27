@@ -9,6 +9,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { AuthorsService } from '../../../services/bds/authors.service';
 import { AuthorsListPager } from '../../../models/bds/authors/authors-list-pager';
 import { Author } from '../../../models/bds/authors/author';
+import { ResizeService } from '../../../services/commons/resize.service';
 
 @Component({
   selector: 'app-authors-table-by-letter',
@@ -25,22 +26,45 @@ export class AuthorsTableByLetterComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'lastname', 'firstname', 'nickname', 'nationality', 'action'];
+  displayedColumns: string[];
   resultsLength = 0;
-  pageSize: number = 500;
+  pageSize: number = 100;
   isLoadingResults = true;
 
   authorToDisplay: Author;
   authors: Author[] = [];
 
   constructor(
-    private authorsService: AuthorsService
-  ) { }
+    private authorsService: AuthorsService,
+    private resizeService: ResizeService
+  ) {
+    // Set table size
+    this.initDisplayColumns(this.resizeService.currentSize);
+    // Subscribe for next screen size changes
+    this.resizeService.onResize$.subscribe(size => {
+      this.initDisplayColumns(size);
+    });
+   }
+
+  initDisplayColumns(size: number): void {
+    if(size < 2 ) {
+      this.displayedColumns = ['xs-view'];
+    } 
+    
+    if(size == 2 ) {
+      this.displayedColumns = ['md-view'];
+    }
+
+    if(size > 2 ) {
+      this.displayedColumns = ['id', 'lastname', 'firstname', 'nickname', 'nationality', 'action'];
+    }
+   }
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.load();
+    console.log('after init')
   }
 
   load(): void {
@@ -69,6 +93,9 @@ export class AuthorsTableByLetterComponent implements AfterViewInit {
   ngOnChanges(change: SimpleChange) {
     if(change['context'] != undefined){
       this.context = change['context'].currentValue;
+      this.letter = 'A';
+      console.log('ngchange')
+      //this.load();
     }
 
     if(change['letter'] != undefined) {
@@ -80,4 +107,13 @@ export class AuthorsTableByLetterComponent implements AfterViewInit {
     }
   }
 
+  handleChangeListeView(view: string): void {
+    if(view == 'list')
+      this.initDisplayColumns(1);
+    if(view == 'card')
+      this.initDisplayColumns(2);
+    if(view == 'table')
+      this.initDisplayColumns(3);
+  }
+  
 }

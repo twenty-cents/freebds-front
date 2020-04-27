@@ -1,0 +1,41 @@
+<mat-card class="mat-elevation-z0 mb-2 p-0">
+
+    <mat-card-content>
+        <div class="card mb-3 no-border">
+
+            <div class="row no-gutters">
+
+                <div class="col-md-10">
+
+                    <mat-card-header class="bg-dark text-white pt-2">
+                        <mat-card-title>{{ serie.title }}</mat-card-title>
+                        <mat-card-subtitle class="text-light">{{ serie.categories }} | {{ serie.langage }} | {{ serie.origin }}
+                            | {{ serie.status }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <div class="card-body bg-white">
+                        <h5 *ngIf="serie.synopsys" class="mt-1 mb-2">Synopsys</h5>
+                        <div *ngIf="serie.synopsys" class="mt-1 ml-1">{{ serie.synopsys }}</div>
+                        <a [routerLink]="['/series', serie.id, context]" class="btn btn-info btn-sm mt-3 mb-2">Afficher</a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-2" >
+
+                    <div class="row no-gutters">
+                        <div class="col-md-12">
+ <!--                       <img [src]="serie.pageThumbnailUrl" class="card-img p-1" alt="..."> -->
+                            <p-lightbox [images]="seriePageThb" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </mat-card-content>
+</mat-card>

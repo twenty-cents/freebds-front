@@ -27,4 +27,8 @@ export class BreadcrumbMainComponent implements OnInit {
   handleItemClick(event) {
     this.breadcrumbMainService.select(event.item)
   }
+
+  handleLocationBack() {
+    window.history.back();
+  }
 }

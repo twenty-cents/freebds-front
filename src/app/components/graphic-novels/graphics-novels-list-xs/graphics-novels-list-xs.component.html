@@ -1,40 +1,122 @@
-<mat-card class="mat-elevation-z6 mb-2" style="min-width: 500px;">
+<mat-card class="mat-elevation-z6 mb-2" style="min-width: 500px;max-width:500px;">
     <mat-card-header class="bg-dark text-white pt-2">
         <h6>Les albums de la série</h6>
     </mat-card-header>
 
     <mat-card-content>
-        <div class="example-table-container">
 
-            <table mat-table [dataSource]="graphicNovels" class="example-table" matSort matSortActive="publicationDate"
-                matSortDisableClear matSortDirection="asc">
+        <mat-tab-group dynamicHeight mat-stretch-tabs>
+            <mat-tab label="Dans ma collection">
+                <div class="container-fluid no-gutters p-0 m-0">
 
-                <!-- Tome Column -->
-                <ng-container matColumnDef="tome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tome</th>
-                    <td mat-cell *matCellDef="let gc" align="center">{{gc.tome + gc.numEdition}}</td>
-                </ng-container>
+                    <div class="example-table-container">
 
-                <!-- Title Column -->
-                <ng-container matColumnDef="title">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Title</th>
-                    <td mat-cell *matCellDef="let gc">
-                        <a [routerLink]="['/graphic-novels', gc.id]"
-                            >{{gc.title}}</a>
-                        </td>
-                </ng-container>
+                        <table mat-table [dataSource]="graphicNovels" class="example-table" style="width:100%;">
 
-                <!-- Publication date Column -->
-                <ng-container matColumnDef="publicationDate">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Dépôt légal</th>
-                    <td mat-cell *matCellDef="let gc">{{gc.publicationDate.substring(0, 4)}}</td>
-                </ng-container>
+                            <!-- Tome Column -->
+                            <ng-container matColumnDef="tome">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Tome</th>
+                                <td mat-cell *matCellDef="let gc" align="center" style="width:70px;">{{gc.tome + gc.numEdition}}</td>
+                            </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                <tr mat-row *matRowDef="let gc; columns: displayedColumns;"></tr>
-            </table>
-        </div>
+                            <!-- Title Column -->
+                            <ng-container matColumnDef="title">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Title</th>
+                                <td mat-cell *matCellDef="let gc">
+                                    <a [routerLink]="['/graphic-novels', gc.id, context]">{{gc.title}}</a>
+                                </td>
+                            </ng-container>
 
+                            <!-- Publication date Column -->
+                            <ng-container matColumnDef="publicationDate">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Dépôt légal</th>
+                                <td mat-cell *matCellDef="let gc;" style="width:90px;">
+                                    <span *ngIf="gc.publicationDate !== null">{{ gc.publicationDate.substring(0, 4) }}</span>
+                                    <span *ngIf="gc.publicationDate === null">{{ gc.publicationDate }}</span>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let gc; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Souhaits / Manquants">
+                <div class="container-fluid no-gutters">
+                    <h6 class="mt-4">Liste de souhaits</h6>
+                    <div class="example-table-container">
+
+                        <table mat-table [dataSource]="wishlist" class="example-table" style="width:100%;">
+
+                            <!-- Tome Column -->
+                            <ng-container matColumnDef="tome">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Tome</th>
+                                <td mat-cell *matCellDef="let gc" align="center" style="width:70px;">{{gc.tome + gc.numEdition}}</td>
+                            </ng-container>
+
+                            <!-- Title Column -->
+                            <ng-container matColumnDef="title">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Title</th>
+                                <td mat-cell *matCellDef="let gc">
+                                    <a [routerLink]="['/graphic-novels', gc.id, context]">{{gc.title}}</a>
+                                </td>
+                            </ng-container>
+
+                            <!-- Publication date Column -->
+                            <ng-container matColumnDef="publicationDate">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Dépôt légal</th>
+                                <td mat-cell *matCellDef="let gc;" style="width:90px;">
+                                    <span *ngIf="gc.publicationDate !== null">{{ gc.publicationDate.substring(0, 4) }}</span>
+                                    <span *ngIf="gc.publicationDate === null">{{ gc.publicationDate }}</span>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let gc; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+
+                    <h6 class="mt-4">Albums manquants</h6>
+                    <div class="example-table-container">
+
+                        <table mat-table [dataSource]="missing" class="example-table" style="width:100%;">
+
+                            <!-- Tome Column -->
+                            <ng-container matColumnDef="tome">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Tome</th>
+                                <td mat-cell *matCellDef="let gc" align="center" style="width:70px;">{{gc.tome + gc.numEdition}}</td>
+                            </ng-container>
+
+                            <!-- Title Column -->
+                            <ng-container matColumnDef="title">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Title</th>
+                                <td mat-cell *matCellDef="let gc">
+                                    <a [routerLink]="['/graphic-novels', gc.id, context]">{{gc.title}}</a>
+                                </td>
+                            </ng-container>
+
+                            <!-- Publication date Column -->
+                            <ng-container matColumnDef="publicationDate">
+                                <th mat-header-cell *matHeaderCellDef disableClear>Dépôt légal</th>
+                                <td mat-cell *matCellDef="let gc;" style="width:90px;">
+                                    <span *ngIf="gc.publicationDate !== null">{{ gc.publicationDate.substring(0, 4) }}</span>
+                                    <span *ngIf="gc.publicationDate === null">{{ gc.publicationDate }}</span>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let gc; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
     </mat-card-content>
 
 </mat-card>

@@ -5,14 +5,21 @@ import {MenuItem} from 'primeng/api';
 import {LightboxModule} from 'primeng/lightbox';
 
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog} from '@angular/material/dialog';
 
+import { Serie } from '../../../models/bds/series/serie';
 import { GraphicNovel } from '../../../models/bds/graphic-novels/graphic-novel';
 import { GraphicNovelsListPager } from '../../../models/bds/graphic-novels/graphic-novels-list-pager';
 import { GraphicNovelsService } from '../../../services/bds/graphic-novels.service';
 import { Property } from '../../../models/commons/property';
 import { AuthorRole } from '../../../models/bds/authors/author-role';
-import { LibraryGraphicNovelsService } from '../../../services/collection/library-graphic-novels.service';
-
+import { User } from '../../../models/security/user';
+import { UserService } from '../../../services/security/user.service';
+import { Review } from 'src/app/models/collection/review';
+import { GraphicNovelItemDialogComponent } from '../../graphic-novels/graphic-novel-item-dialog/graphic-novel-item-dialog.component';
+import { LibraryContentDialogInput } from '../../../models/library/library-content-dialog-input';
+import { LibraryContentDialogOutput } from '../../../models/library/library-content-dialog-output';
+import { LibraryContentService } from '../../../services/library/library-content.service';
 @Component({
   selector: 'app-graphic-novel-item',
   templateUrl: './graphic-novel-item.component.html',
@@ -21,10 +28,11 @@ import { LibraryGraphicNovelsService } from '../../../services/collection/librar
 export class GraphicNovelItemComponent implements OnInit {
 
   @Input() context: string;
+  @Input() serie: Serie;
   @Input() graphicNovel: GraphicNovel;
 
   authors: AuthorRole[] = [];
-
+  myReview: Review;
   addItems: MenuItem[];
   
   cover: any[] = [];
@@ -35,9 +43,12 @@ export class GraphicNovelItemComponent implements OnInit {
   inCollection = false;
 
   constructor(
+    private userService: UserService,
     private graphicNovelsService: GraphicNovelsService,
+    private libraryContentService: LibraryContentService,
     private snackBar: MatSnackBar,
-    private libraryGraphicNovelsService: LibraryGraphicNovelsService) {
+    public dialog: MatDialog) {
+
     this.graphicNovel = {
       id: 0,
       externalId: '',
@@ -134,6 +145,16 @@ export class GraphicNovelItemComponent implements OnInit {
       this.page.push({source: this.graphicNovel.pageUrl, thumbnail: this.graphicNovel.pageThumbnailUrl, title:'Extrait'});
       this.backCover.push({source: this.graphicNovel.backCoverPictureUrl, thumbnail: this.graphicNovel.backCoverThumbnailUrl, title:'Couverture verso'});
 
+      // Rating
+      this.note = undefined;
+      if(!!this.graphicNovel.reviews) {
+        this.graphicNovel.reviews.forEach(el => {
+          if(el.userId == this.userService.user.id) {
+            this.note = el.rating;
+            this.myReview = el;
+          }
+        });
+      }
   }
 
   private addAuthor(index: number, role: string, lastname: string, firstname: string, nickname: string): Property {
@@ -192,12 +213,81 @@ export class GraphicNovelItemComponent implements OnInit {
    *          - 3 = wishlist
    */
   addToCollection(format: number) {
-    this.libraryGraphicNovelsService.addToCollection(this.graphicNovel.id, format).subscribe(data => {
+    this.graphicNovelsService.addToCollection(this.context, this.serie.librarySerieContent, this.serie.id, this.graphicNovel.id, format).subscribe(data => {
       this.inCollection = true;
+      // Refresh all associates lists
+      this.graphicNovelsService.graphicNovelListRefreshRequestedSubject.next(this.graphicNovel);
+      // Display a confirmation message to the user
       let snackBarRef = this.snackBar.open(this.graphicNovel.title, "ajouté dans ma collection.", {
         duration: 4000,
       });
     });
   }
 
+  removeFromCollection(): void {
+    this.libraryContentService.delete(this.graphicNovel.libraryContent.id).subscribe(result => {
+      if(result) {
+        // Refresh all associates lists
+        this.graphicNovelsService.graphicNovelTableRefreshRequestedSubject.next(this.graphicNovel);
+        this.graphicNovelsService.graphicNovelListRefreshRequestedSubject.next(this.graphicNovel);
+
+        let snackBarRef = this.snackBar.open(this.graphicNovel.title, "supprimé de la collection.", {
+          duration: 4000,
+        });
+      }
+    }, error => {
+      console.log("Delete error!");
+    })
+  }
+
+  handleRate($event): void {
+    this.updateRating($event.value);
+  }
+
+  handleCancelRate($event): void {
+    this.updateRating(0);
+  }
+
+  updateRating(rating: number) {
+    if(! this.myReview) {
+      this.myReview = {
+        id: null,
+        librarySerieContentId: this.serie.librarySerieContent.id,
+        libraryContentId: this.graphicNovel.libraryContent.id,
+        userId: this.userService.user.id,
+        rating: rating,
+        comment: null
+      }
+    } else {
+      this.myReview.rating = rating;
+    }
+
+    this.graphicNovelsService.addRating(this.context, this.myReview, this.graphicNovel.id).subscribe(data => {
+      this.inCollection = true;
+      let snackBarRef = this.snackBar.open(this.graphicNovel.title, "Note modifiée.", {
+        duration: 4000,
+      });
+    });
+  }
+
+  handleUpdateGc(): void {
+    const libraryContentDialogInput: LibraryContentDialogInput = {
+      serie : this.graphicNovel.serie,
+      graphicNovel: this.graphicNovel
+    };
+
+    const dialogRef = this.dialog.open(GraphicNovelItemDialogComponent, {
+      width: '500px',
+      data: libraryContentDialogInput
+    });
+
+    dialogRef.afterClosed().subscribe(libraryContentDialogOutput => {
+      if(libraryContentDialogOutput.status === 'VALIDATED') {
+        this.graphicNovel.libraryContent = libraryContentDialogOutput.libraryContent;
+        let snackBarRef = this.snackBar.open(this.graphicNovel.title, "mis à jour.", {
+          duration: 4000,
+        });
+      }
+    });
+  }
 }

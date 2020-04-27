@@ -1,8 +1,10 @@
-<p-sidebar [(visible)]="display" [showCloseIcon]="false" [(modal)]="modal" (onShow)="show()" (onHide)="hide()"
+<p-sidebar [(visible)]="display" [showCloseIcon]="true" [(modal)]="modal" (onShow)="show()" (onHide)="hide()"
     class="test">
-    <h1 style="font-weight:normal;color: white;">FreeBds</h1>
-
+    <h1 style="font-weight:normal;color: white;width:100%;">FreeBds</h1>
+    <p-menu [model]="items2" [style]="{'width':'100%'}"></p-menu>
+    <button pButton type="button" (click)="display = false" label="Cancel" class="ui-button-secondary"></button>
+<!--
     <p-panelMenu [model]="items" multiple="false" [style]="{'width':'100%'}"></p-panelMenu>
-
+-->
 
 </p-sidebar>

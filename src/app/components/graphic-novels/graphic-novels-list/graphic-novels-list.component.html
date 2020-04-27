@@ -7,7 +7,7 @@
     <mat-card-content>
 
         <div *ngFor="let graphicNovel of graphicNovels">
-            <app-graphic-novel-item [graphicNovel]="graphicNovel" [context]="context"></app-graphic-novel-item>
+            <app-graphic-novel-item [(serie)]="serie" [graphicNovel]="graphicNovel" [context]="context"></app-graphic-novel-item>
             <mat-divider [inset]="true"></mat-divider>
         </div>
 

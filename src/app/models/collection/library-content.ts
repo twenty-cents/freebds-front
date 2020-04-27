@@ -1,3 +1,4 @@
+import { LibrarySerieContent } from '../collection/library-serie-content'
 export interface LibraryContent {
     id?: number;
     isFavorite?: boolean;
@@ -9,4 +10,5 @@ export interface LibraryContent {
     creationUser?: string;
     lastUpdateDate?: string;
     lastUpdateUser?: string;
+    librarySerieContent: LibrarySerieContent
 }

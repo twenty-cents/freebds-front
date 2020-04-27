@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="mat-elevation-z0 pl-0 pr-0">
     <mat-card-content>
 
         <div class="card mb-3 no-border">
@@ -7,7 +7,7 @@
                 <div class="col-md-4" style="max-width: 200px">
 
                     <div class="row no-gutters">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-4">
                             <p-lightbox [images]="cover" class="card-img" styleClass="card-img lightbox p-1"></p-lightbox>
                         </div>
                     </div>
@@ -35,38 +35,39 @@
                             <dd>{{ graphicNovel.id + " / " + graphicNovel.externalId }}</dd>
                             <div *ngFor="let author of authors">
                                 <dt>{{author.role}}</dt>
-                                <dd><a [routerLink]="['/authors', author.id]">{{author.name}}</a></dd>
+                                <dd><a [routerLink]="['/authors', author.id, context]">{{author.name}}</a></dd>
                             </div>
                             <dt>Dépôt légal</dt>
-                            <dd>{{ graphicNovel.publicationDate.substring(0, 7) }}</dd>
+                            <dd *ngIf="graphicNovel.publicationDate !== null">{{ graphicNovel.publicationDate.substring(0, 7) }}</dd>
+                            <dd *ngIf="graphicNovel.publicationDate === null">{{ graphicNovel.publicationDate }}</dd>
                             <dt>Editeur</dt>
                             <dd>{{ graphicNovel.publisher }}</dd>
+                            <dt *ngIf="graphicNovel.collection !== null">Collection</dt>
+                            <dd *ngIf="graphicNovel.collection !== null">{{ graphicNovel.collection }}</dd>
                             <dt>Format</dt>
                             <dd>{{ graphicNovel.format }}</dd>
                             <dt>ISBN</dt>
                             <dd>{{ graphicNovel.isbn }}</dd>
-                            <dt>Note</dt>
-                            <dd><p-rating [(ngModel)]="note" [cancel]="false"></p-rating></dd>
+                            <div *ngIf="context == 'library' && graphicNovel.libraryContent != undefined">
+                                <dt>Note</dt>
+                                <dd><p-rating [ngModel]="note" (onCancel)="handleCancelRate($event)" (onRate)="handleRate($event)" iconOnClass="pi pi-circle-on" iconOffClass="pi pi-circle-off" iconCancelClass="pi pi-times">;</p-rating></dd>
+                            </div>
                             <dt>Infos édition</dt>
-                            <dd>{{ graphicNovel.infoEdition }} , {{ inCollection }}</dd>
-                            <dt><a href="#" class="card-link">Rééditions</a></dt>
+                            <dd>{{ graphicNovel.infoEdition }}</dd>
+                            <!--<dt><a href="#" class="card-link">Rééditions</a></dt>-->
                         </dl>
+                        <div *ngIf="context == 'library' && graphicNovel.libraryContent != undefined" class="ml-1">
+                            <p-message [style.display]="graphicNovel.libraryContent.isNumeric ? 'inline' : 'none'" severity="info" text="Format numérique" class="mr-1"></p-message>
+                            <p-message [style.display]="graphicNovel.libraryContent.isPhysical ? 'inline' : 'none'" severity="info" text="Format physique" class="mr-1"></p-message>
+                            <p-message [style.display]="graphicNovel.libraryContent.isFavorite ? 'inline' : 'none'" severity="success" text="Favori" class="mr-1"></p-message>
+                            <p-message [style.display]="graphicNovel.libraryContent.isWishlist ? 'inline' : 'none'" severity="warn" text="Liste de souhaits" class="mr-1"></p-message>
+                        </div>
                     </div>
                     <div *ngIf="context == 'referential'" class="d-flex justify-content-end">
-                        <p-splitButton [style.display]="!inCollection ? 'block' : 'none'" class="ml-3"
-                            label="Ajouter dans ma collection" (onClick)="addToCollection(0)" [model]="addItems"
-                            styleClass="ui-button-success"></p-splitButton>
 
-                        <button [style.display]="inCollection ? 'block' : 'none'" pButton type="button"
-                            label="Album présent dans ma collection" class="ml-3 ui-button-warning inactive"></button>
                     </div>
 
-                    <div *ngIf="context == 'library'" class="ml-3">
-                        <p-message [style.display]="graphicNovel.libraryContent.isNumeric ? 'inline' : 'none'" severity="info" text="Format numérique" class="mr-1"></p-message>
-                        <p-message [style.display]="graphicNovel.libraryContent.isPhysical ? 'inline' : 'none'" severity="info" text="Format physique" class="mr-1"></p-message>
-                        <p-message [style.display]="graphicNovel.libraryContent.isFavorite ? 'inline' : 'none'" severity="success" text="Favori" class="mr-1"></p-message>
-                        <p-message [style.display]="graphicNovel.libraryContent.isWishlist ? 'inline' : 'none'" severity="warn" text="Liste de souhaits" class="mr-1"></p-message>
-                    </div>
+
                 </div>
             </div>
 
@@ -74,14 +75,26 @@
 
     </mat-card-content>
 
-    <mat-card-footer *ngIf="context == 'library'" class="mb-1">
+    <mat-card-footer *ngIf="context == 'referential'" class="mb-1">
+        <mat-divider></mat-divider>
+        <div class="d-flex  justify-content-end align-items-start pt-2">
+            <p-splitButton [style.display]="!inCollection ? 'block' : 'none'" class="mr-3"
+            label="Ajouter dans ma collection" (onClick)="addToCollection(0)" [model]="addItems"
+            styleClass="ui-button-success"></p-splitButton>
+
+        <button [style.display]="inCollection ? 'block' : 'none'" pButton type="button"
+            label="Album présent dans ma collection" class="mr-3 ui-button-warning inactive"></button>
+        </div>
+    </mat-card-footer>
+
+    <mat-card-footer *ngIf="context == 'library' && graphicNovel.libraryContent != undefined" class="mb-1">
         <mat-divider></mat-divider>
         <div class="d-flex  justify-content-between align-items-start pt-2">
-            <button pButton type="button" label="Supprimer de la collection" class="ui-button-raised ui-button-danger m-2"
-            style="width: 210px;" icon="pi pi-trash" iconPos="left"></button>
+            <button pButton type="button" label="Supprimer de la collection" class="ui-button-raised ui-button-danger m-2 ml-3"
+            style="width: 210px;" icon="pi pi-trash" iconPos="left" (click)="removeFromCollection()"></button>
 
-            <button pButton type="button" label="Modifier la fiche album" class="ui-button-raised ui-button-success m-2"
-             style="width: 210px;" icon="pi pi-pencil" iconPos="left"></button>
+            <button pButton type="button" label="Modifier la fiche album" class="ui-button-raised ui-button-success m-2 mr-3"
+             style="width: 210px;" icon="pi pi-pencil" iconPos="left" (click)="handleUpdateGc()"></button>
         </div>
     </mat-card-footer>
 </mat-card>

@@ -1,5 +1,6 @@
 import { Serie } from '../series/serie';
 import { LibraryContent } from '../../collection/library-content';
+import { Review } from '../../collection/review';
 export interface GraphicNovel {
     id?: number;
     externalId?: string;
@@ -36,4 +37,5 @@ export interface GraphicNovel {
     pageThumbnailUrl?: string;
     serie?: Serie;
     libraryContent?: LibraryContent;
+    reviews?: Review[];
 }

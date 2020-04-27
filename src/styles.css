@@ -12,7 +12,7 @@ body .ui-widget {
     background-color: greenyellow; 
 } 
 
-@media (max-width: 768px) {
+@media (max-width: 7680px) {
   .sticky-sidebar {
     display: none; 
   } 

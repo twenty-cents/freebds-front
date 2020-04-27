@@ -1,3 +1,4 @@
+import { LibrarySerieContent } from '../../collection/library-serie-content';
 export interface Serie {
   categories?: string;
   externalId?: string;
@@ -10,4 +11,5 @@ export interface Serie {
   status?: string;
   synopsys?: string;
   title?: string;
+  librarySerieContent?: LibrarySerieContent;
 }

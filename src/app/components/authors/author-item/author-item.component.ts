@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import { Input } from '@angular/core';
 
 import { AuthorsService } from '../../../services/bds/authors.service';
 import { SeriesService } from '../../../services/bds/series.service';
@@ -13,6 +14,8 @@ import { Serie } from '../../../models/bds/series/serie';
   styleUrls: ['./author-item.component.css']
 })
 export class AuthorItemComponent implements OnInit {
+
+  @Input() context: string;
 
   author: Author;
   titleName: String = '';
@@ -42,6 +45,7 @@ export class AuthorItemComponent implements OnInit {
   ngOnInit() {
     // Get the author id from the activated route
     this.route.paramMap.subscribe(params => {
+      this.context = params.get('context');
       // Load the author
       this.authorsService.getAuthorById(+params.get('author.id')).subscribe(author => {
         this.author = author;
@@ -69,7 +73,7 @@ export class AuthorItemComponent implements OnInit {
       });
 
       // Load the series
-      this.seriesService.getAuthorRolesBySeries(+params.get('author.id')).subscribe(authorRoleBySeries => {
+      this.seriesService.getAuthorRolesBySeries(this.context, +params.get('author.id')).subscribe(authorRoleBySeries => {
         this.authorRoleBySerie = authorRoleBySeries;
       });
 

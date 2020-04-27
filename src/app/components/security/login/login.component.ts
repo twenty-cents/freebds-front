@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from '../../../services/security/auth.service';
 import { TokenStorageService } from '../../../services/security/token-storage.service';
-
+import { UserService } from '../../../services/security/user.service';
+import { User } from '../../../models/security/user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private tokenStorage: TokenStorageService,
+    private userService: UserService,
     private formBuilder: FormBuilder
     ) { }
 
@@ -54,6 +56,17 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
+
+        // Save user
+        let user: User = {
+          id: data.id,
+          username: data.username,
+          email: data.email,
+          roles: data.roles,
+          avatar: data.avatar
+        }
+
+        this.userService.save(user);
         this.reloadPage();
       },
       err => {
@@ -64,7 +77,8 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    //window.location.reload();
+    window.open('/dashboard', 'self')
   }
 
     /**

@@ -63,40 +63,19 @@ export class GraphicNovelsListComponent implements OnInit {
  */
   paginate(pageNumber: number) {
     // Load serie's graphic novels
-    if (this.context == 'referential') {
+    this.graphicNovelsService.getGraphicNovelsBySerie(this.context, this.serie.id, pageNumber, 20, "publicationDate,asc").subscribe(graphicNovelsListPager => {
+      this.graphicNovels = graphicNovelsListPager.content;
 
-      this.graphicNovelsService.getGraphicNovelsBySerie(this.serie.id, pageNumber, 20, "publicationDate,asc").subscribe(graphicNovelsListPager => {
-        this.graphicNovels = graphicNovelsListPager.content;
-
-        let currentPager: PagerParams;
-        currentPager = {
-          currentPage: graphicNovelsListPager.number,
-          totalPages: graphicNovelsListPager.totalPages,
-          pageTotalElements: this.graphicNovels.length,
-          totalElements: graphicNovelsListPager.totalElements,
-          size: graphicNovelsListPager.size
-        }
-        this.pager = currentPager;
-      });
-    }
-
-    if (this.context == 'library') {
-
-      this.graphicNovelsService.getGraphicNovelsFromLibraryBySerie(this.serie.id, pageNumber, 20, "publicationDate,asc").subscribe(graphicNovelsListPager => {
-        this.graphicNovels = graphicNovelsListPager.content;
-
-        let currentPager: PagerParams;
-        currentPager = {
-          currentPage: graphicNovelsListPager.number,
-          totalPages: graphicNovelsListPager.totalPages,
-          pageTotalElements: this.graphicNovels.length,
-          totalElements: graphicNovelsListPager.totalElements,
-          size: graphicNovelsListPager.size
-        }
-        this.pager = currentPager;
-      });
-    }
+      let currentPager: PagerParams;
+      currentPager = {
+        currentPage: graphicNovelsListPager.number,
+        totalPages: graphicNovelsListPager.totalPages,
+        pageTotalElements: this.graphicNovels.length,
+        totalElements: graphicNovelsListPager.totalElements,
+        size: graphicNovelsListPager.size
+      }
+      this.pager = currentPager;
+    });
   }
-
 
 }

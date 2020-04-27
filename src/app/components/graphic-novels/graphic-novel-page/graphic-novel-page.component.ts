@@ -14,6 +14,8 @@ import { GraphicNovelsService } from '../../../services/bds/graphic-novels.servi
 })
 export class GraphicNovelPageComponent implements OnInit {
 
+  context: string;
+
   graphicNovel: GraphicNovel;
 
   constructor(
@@ -59,8 +61,9 @@ export class GraphicNovelPageComponent implements OnInit {
   ngOnInit(): void {
     // Get the graphic Novel id from the activated route
     this.route.paramMap.subscribe(params => {
+      this.context = params.get('context');
       // Load the graphic Novel
-      this.graphicNovelsService.getGraphicNovel(+params.get('graphicNovel.id')).subscribe(graphicNovel => {
+      this.graphicNovelsService.getGraphicNovel(this.context, +params.get('graphicNovel.id')).subscribe(graphicNovel => {
         this.graphicNovel = graphicNovel;
 
         // Init breacrumb

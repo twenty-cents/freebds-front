@@ -18,6 +18,8 @@ import { LoginComponent } from '../components/security/login/login.component';
 import { RegisterComponent } from '../components/security/register/register.component';
 import { ProfileComponent } from '../components/security/profile/profile.component';
 import { HomeComponent } from '../components/home/home.component';
+import { MyProfileComponent } from '../components/security/my-profile/my-profile.component';
+import { MyPasswordComponent } from '../components/security/my-password/my-password.component';
 
 const appRouteList: Routes = [
   { path: 'dashboard', component: DashboardComponent }, 
@@ -26,14 +28,16 @@ const appRouteList: Routes = [
   { path: 'series/:serie.id/:context', component: SerieItemComponent }, 
   { path: 'navigate/:context', component: NavigateComponent }, 
   { path: 'authors/:context', component: AuthorsTableComponent }, 
-  { path: 'authors/:author.id', component: AuthorItemComponent }, 
+  { path: 'authors/:author.id/:context', component: AuthorItemComponent }, 
   { path: 'graphic-novels/:context', component: GraphicNovelsTableComponent }, 
-  { path: 'graphic-novels/:graphicNovel.id', component: GraphicNovelPageComponent }, 
+  { path: 'graphic-novels/:graphicNovel.id/:context', component: GraphicNovelPageComponent }, 
 
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'user', component: MyProfileComponent },
+  { path: 'security', component: MyPasswordComponent },
 
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];

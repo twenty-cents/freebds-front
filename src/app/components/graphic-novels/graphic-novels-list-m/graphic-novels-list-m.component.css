@@ -1,0 +1,8 @@
+table .gc-table {
+    width: 100%;
+}
+
+.gc-card-borders {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+}
